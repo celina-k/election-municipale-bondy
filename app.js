@@ -54,7 +54,8 @@ const listColorMap = {
   'Bondy, ce qui nous rassemble': '#5cb85c',
 }
 let listColorIndex = 0
-const ABSTENTION_COLOR = '#e17055'
+const ABSTENTION_COLOR  = '#e17055'
+const BLANCS_NULS_COLOR = '#636e72'
 
 function getListColor(libelle) {
   if (!listColorMap[libelle]) {
@@ -176,7 +177,7 @@ Promise.all([
           : `${val.toFixed(1)}% des inscrits`
         const n   = repartitionSelected.size
         const nom = n === 0 ? '–' : n === 1
-          ? ([...repartitionSelected][0] === '__abstentions__' ? 'Abstentions' : [...repartitionSelected][0])
+          ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
           : `${n} listes`
         e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
         e.target.bindTooltip(
@@ -232,6 +233,8 @@ document.querySelectorAll('.tab').forEach(btn => {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
     document.getElementById(`tab-${currentTab}`).classList.remove('hidden')
 
+    if (currentTab !== 'bureaux' && isMobile()) openSidebar()
+
     if (currentTab !== 'bureaux' && activeCode) {
       document.querySelector(`.bureau-item[data-code="${activeCode}"]`)?.classList.remove('active')
       activeCode = null
@@ -286,6 +289,28 @@ function restoreNormalColors() {
   })
 }
 
+// ─── Toggle sidebar (mobile uniquement) ──────────────────────────────────────
+const sidebar = document.querySelector('.sidebar')
+const listFab = document.getElementById('list-fab')
+
+function isMobile() { return window.innerWidth <= 768 }
+
+function openSidebar() {
+  sidebar.classList.add('open')
+  listFab.textContent = '✕ Fermer'
+  setTimeout(() => map.invalidateSize(), 280)
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open')
+  listFab.textContent = '☰ Liste'
+  setTimeout(() => map.invalidateSize(), 280)
+}
+
+listFab.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
+})
+
 // ─── Sélection bureau (onglet bureaux) ───────────────────────────────────────
 function selectBureau(code) {
   if (activeCode && layers[activeCode]) {
@@ -305,6 +330,7 @@ function selectBureau(code) {
 
   const feature = allFeatures.find(f => f.properties.codeBureauVote === code)
   showInfoPanel(feature, color)
+  if (isMobile()) closeSidebar()
 }
 
 // ─── Panneau d'info ──────────────────────────────────────────────────────────
@@ -374,6 +400,7 @@ infoClose.addEventListener('click', () => {
     activeCode = null
   }
   hideInfoPanel()
+  if (isMobile()) openSidebar()
 })
 
 // ─── Recherche ───────────────────────────────────────────────────────────────
@@ -654,7 +681,9 @@ function initAbstentionMetric() {
 function getRepartitionColor() {
   if (repartitionSelected.size === 1) {
     const [key] = repartitionSelected
-    return key === '__abstentions__' ? ABSTENTION_COLOR : getListColor(key)
+    if (key === '__abstentions__') return ABSTENTION_COLOR
+    if (key === '__blancs_nuls__') return BLANCS_NULS_COLOR
+    return getListColor(key)
   }
   return '#4f7ef7'
 }
@@ -669,6 +698,11 @@ function getRepartitionVal(code) {
       total += repartitionMetric === 'voix'
         ? (r.abstentions ?? 0)
         : (r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0)
+    } else if (key === '__blancs_nuls__') {
+      const bn = (r.blancs ?? 0) + (r.nuls ?? 0)
+      total += repartitionMetric === 'voix'
+        ? bn
+        : (r.inscrits > 0 ? bn / r.inscrits * 100 : 0)
     } else {
       const cand = r.candidats.find(c => c.libelle === key)
       total += repartitionMetric === 'voix'
@@ -681,7 +715,7 @@ function getRepartitionVal(code) {
 
 function getRepartitionData() {
   const vals = allFeatures.map(f => getRepartitionVal(f.properties.codeBureauVote))
-  return { min: Math.min(...vals), max: Math.max(...vals) }
+  return { max: Math.max(...vals) }
 }
 
 function applyRepartitionColors() {
@@ -690,22 +724,22 @@ function applyRepartitionColors() {
     document.getElementById('legend-wrap-rep').innerHTML = ''
     return
   }
-  const { min, max } = getRepartitionData()
+  const { max } = getRepartitionData()
   const color = getRepartitionColor()
   allFeatures.forEach(f => {
     const code = f.properties.codeBureauVote
     const val  = getRepartitionVal(code)
-    const t    = (val - min) / (max - min || 1)
+    const t    = max > 0 ? val / max : 0
     layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
   })
   const fmt   = v => repartitionMetric === 'voix' ? `${Math.round(v)} voix` : `${v.toFixed(1)}%`
   const n     = repartitionSelected.size
   const label = n === 1
-    ? ([...repartitionSelected][0] === '__abstentions__' ? 'Abstentions' : [...repartitionSelected][0])
+    ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
     : `${n} listes sélectionnées`
   const caption = label.length > 34 ? label.slice(0, 34) + '…' : label
   document.getElementById('legend-wrap-rep').innerHTML = `
-    <div class="legend-label-row"><span>${fmt(min)}</span><span>${fmt(max)}</span></div>
+    <div class="legend-label-row"><span>0</span><span>${fmt(max)}</span></div>
     <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(color, 0.1)},${hexToRgba(color, 0.9)})"></div>
     <div class="legend-caption">${caption}</div>
   `
@@ -713,9 +747,9 @@ function applyRepartitionColors() {
 
 function applyRepartitionStyle(code) {
   if (repartitionSelected.size === 0) return
-  const { min, max } = getRepartitionData()
+  const { max } = getRepartitionData()
   const val   = getRepartitionVal(code)
-  const t     = (val - min) / (max - min || 1)
+  const t     = max > 0 ? val / max : 0
   const color = getRepartitionColor()
   layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
 }
@@ -738,6 +772,10 @@ function renderRepartition() {
       if (key === '__abstentions__') {
         voix += r?.abstentions ?? 0
         pct  += r && r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0
+      } else if (key === '__blancs_nuls__') {
+        const bn = (r?.blancs ?? 0) + (r?.nuls ?? 0)
+        voix += bn
+        pct  += r && r.inscrits > 0 ? bn / r.inscrits * 100 : 0
       } else {
         const cand = r?.candidats.find(c => c.libelle === key)
         const v = cand?.voix ?? 0
@@ -784,6 +822,7 @@ function initRepartition() {
   const items = [
     { key: '__abstentions__', label: 'Abstentions', color: ABSTENTION_COLOR },
     ...listes.map(([lib]) => ({ key: lib, label: lib, color: getListColor(lib) })),
+    { key: '__blancs_nuls__', label: 'Blancs + Nuls', color: BLANCS_NULS_COLOR },
   ]
 
   document.getElementById('rep-checklist').innerHTML = items.map(({ key, label, color }) => `

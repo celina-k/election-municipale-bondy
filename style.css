@@ -519,6 +519,11 @@ header h1 { font-size: 16px; font-weight: 600; }
   :root { --sidebar-w: 240px; }
 }
 
+/* ─── Bouton flottant liste (mobile uniquement) ─────────────── */
+.list-fab {
+  display: none;
+}
+
 /* ─── Responsive — Mobile (≤ 768px) ────────────────────────── */
 @media (max-width: 768px) {
   :root { --sidebar-w: 100%; }
@@ -547,12 +552,39 @@ header h1 { font-size: 16px; font-weight: 600; }
 
   .sidebar {
     width: 100%;
-    height: 42vh;
+    height: 0;
     border-right: none;
-    border-top: 1px solid var(--border);
+    border-top: none;
     flex-shrink: 0;
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+  .sidebar.open {
+    height: 42vh;
+    border-top: 1px solid var(--border);
     overflow-y: auto;
   }
+
+  .list-fab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 1001;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.5);
+    transition: background .15s;
+  }
+  .list-fab:hover { background: var(--border); }
 
   /* Info panel pleine largeur dans la zone carte */
   .info-panel {
@@ -569,6 +601,17 @@ header h1 { font-size: 16px; font-weight: 600; }
 
   #liste-select,
   #liste-select-b { padding: 9px 10px; font-size: 13px; }
+
+  /* Laisser le sidebar être le seul conteneur de scroll */
+  .tab-content {
+    overflow: visible;
+    flex: none;
+  }
+  .bureau-list {
+    overflow-y: visible;
+    max-height: none;
+    flex: none;
+  }
 }
 
 /* ─── Responsive — Petit mobile (≤ 480px) ──────────────────── */
@@ -576,7 +619,7 @@ header h1 { font-size: 16px; font-weight: 600; }
   header h1 { font-size: 13px; }
   .badge    { display: none; }
 
-  .sidebar  { height: 45vh; }
+  .sidebar.open { height: 45vh; }
 
   .info-panel { max-height: 55%; }
 
