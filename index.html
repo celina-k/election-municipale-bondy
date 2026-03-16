@@ -24,8 +24,10 @@
 
   <!-- Onglets -->
   <nav class="tabs">
-    <button class="tab active" data-tab="bureaux">Bureaux de vote</button>
-    <button class="tab" data-tab="analyse">Analyse par liste</button>
+    <button class="tab active" data-tab="bureaux">Carte des résultats</button>
+    <button class="tab" data-tab="analyse">Scores par liste</button>
+    <button class="tab" data-tab="abstention">Abstentionnisme</button>
+    <button class="tab" data-tab="repartition">Cumul de listes</button>
   </nav>
 
   <div class="main-layout">
@@ -70,12 +72,52 @@
         <div class="analyse-metric-wrap">
           <label>Afficher</label>
           <div class="metric-toggle">
-            <button class="metric-btn active" data-metric="pct">% des exprimés</button>
-            <button class="metric-btn" data-metric="voix">Nb de voix</button>
+            <button class="metric-btn active" data-metric="voix">Nb de voix</button>
+            <button class="metric-btn" data-metric="pct">% des exprimés</button>
           </div>
         </div>
         <div class="legend-wrap" id="legend-wrap"></div>
         <ul class="bureau-list" id="bureau-list-analyse"></ul>
+      </div>
+
+      <!-- Contenu onglet "Abstention" -->
+      <div class="tab-content hidden" id="tab-abstention">
+        <div class="sidebar-header">
+          <h2>Abstention</h2>
+          <span class="count" id="abstention-count">–</span>
+        </div>
+        <div class="analyse-metric-wrap">
+          <label>Afficher</label>
+          <div class="metric-toggle">
+            <button class="abst-metric-btn active" data-metric="voix">Nb abstentionnistes</button>
+            <button class="abst-metric-btn" data-metric="pct">% abstentionnistes</button>
+          </div>
+        </div>
+        <ul class="bureau-list" id="bureau-list-abstention"></ul>
+      </div>
+
+      <!-- Contenu onglet "Répartition" -->
+      <div class="tab-content hidden" id="tab-repartition">
+        <div class="sidebar-header">
+          <h2>Répartition des voix</h2>
+        </div>
+        <div class="analyse-metric-wrap">
+          <label>Afficher</label>
+          <div class="metric-toggle">
+            <button class="rep-metric-btn active" data-metric="voix">Nb de voix</button>
+            <button class="rep-metric-btn" data-metric="pct">% des inscrits</button>
+          </div>
+        </div>
+        <div class="rep-checklist-wrap">
+          <div class="rep-checklist-header">
+            <span>Listes</span>
+            <button id="rep-select-all">Tout cocher</button>
+            <button id="rep-select-none">Tout décocher</button>
+          </div>
+          <div id="rep-checklist"></div>
+        </div>
+        <div class="legend-wrap" id="legend-wrap-rep"></div>
+        <ul class="bureau-list" id="bureau-list-repartition"></ul>
       </div>
 
       <div class="sidebar-footer">

@@ -54,6 +54,7 @@ const listColorMap = {
   'Bondy, ce qui nous rassemble': '#5cb85c',
 }
 let listColorIndex = 0
+const ABSTENTION_COLOR = '#e17055'
 
 function getListColor(libelle) {
   if (!listColorMap[libelle]) {
@@ -61,6 +62,20 @@ function getListColor(libelle) {
     listColorIndex++
   }
   return listColorMap[libelle]
+}
+
+function getBothScores(code, libelle) {
+  const bureau = resultats[code]
+  if (!bureau) return { voix: 0, pct: 0 }
+  const cand = bureau.candidats.find(c => c.libelle === libelle)
+  return { voix: cand?.voix ?? 0, pct: cand?.pctExprimes ?? 0 }
+}
+
+function getScoreAnalyse(code) {
+  if (analyseMode === 'simple') return getScore(code, listeSelect?.value)
+  const libA = listeSelect?.value, libB = listeSelectB?.value
+  if (!libA || !libB) return null
+  return (getScore(code, libA) ?? 0) - (getScore(code, libB) ?? 0)
 }
 
 // ─── Init carte Leaflet ──────────────────────────────────────────────────────
@@ -90,7 +105,10 @@ let resultats    = {}   // codeBureauVote → données résultats
 let layers       = {}   // codeBureauVote → { layer, color }
 let activeCode   = null
 let currentTab   = 'bureaux'
-let activeMetric = 'pct'  // 'pct' | 'voix'
+let activeMetric     = 'voix'  // 'pct' | 'voix'
+let abstentionMetric  = 'voix'  // 'pct' | 'voix'
+let repartitionMetric   = 'voix'      // 'pct' | 'voix'
+let repartitionSelected = new Set()   // Set de libelles + '__abstentions__'
 
 // ─── Éléments DOM ────────────────────────────────────────────────────────────
 const bureauList        = document.getElementById('bureau-list')
@@ -142,6 +160,29 @@ Promise.all([
           `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong>${taux ? '<br>' + taux : ''}</div>`,
           { sticky: true, className: '' }
         ).openTooltip()
+      } else if (currentTab === 'abstention') {
+        const r = resultats[code]
+        const abstentions = r?.abstentions ?? 0
+        const pct = r && r.inscrits > 0 ? (r.abstentions / r.inscrits * 100).toFixed(1) : 'N/D'
+        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
+        e.target.bindTooltip(
+          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${abstentions} abstentions · ${pct}%</div>`,
+          { sticky: true, className: '' }
+        ).openTooltip()
+      } else if (currentTab === 'repartition') {
+        const val = getRepartitionVal(code)
+        const label = repartitionMetric === 'voix'
+          ? `${val} voix`
+          : `${val.toFixed(1)}% des inscrits`
+        const n   = repartitionSelected.size
+        const nom = n === 0 ? '–' : n === 1
+          ? ([...repartitionSelected][0] === '__abstentions__' ? 'Abstentions' : [...repartitionSelected][0])
+          : `${n} listes`
+        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
+        e.target.bindTooltip(
+          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${nom}<br>${label}</div>`,
+          { sticky: true, className: '' }
+        ).openTooltip()
       } else {
         const score = getScoreAnalyse(code)
         const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
@@ -158,6 +199,10 @@ Promise.all([
         e.target.setStyle({ fillOpacity: 0.45 })
       } else if (currentTab === 'analyse') {
         applyAnalyseStyle(code)
+      } else if (currentTab === 'abstention') {
+        applyAbstentionStyle(code)
+      } else if (currentTab === 'repartition') {
+        applyRepartitionStyle(code)
       }
       e.target.closeTooltip()
     })
@@ -172,6 +217,8 @@ Promise.all([
 
   renderList(allFeatures)
   initAnalyse()
+  initAbstentionMetric()
+  initRepartition()
 })
 .catch(err => console.error('Erreur chargement données :', err))
 
@@ -185,16 +232,20 @@ document.querySelectorAll('.tab').forEach(btn => {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
     document.getElementById(`tab-${currentTab}`).classList.remove('hidden')
 
+    if (currentTab !== 'bureaux' && activeCode) {
+      document.querySelector(`.bureau-item[data-code="${activeCode}"]`)?.classList.remove('active')
+      activeCode = null
+      hideInfoPanel()
+    }
     if (currentTab === 'analyse') {
-      // Désélectionner bureau et repasser en mode choroplèthe
-      if (activeCode) {
-        document.querySelector(`.bureau-item[data-code="${activeCode}"]`)?.classList.remove('active')
-        activeCode = null
-        hideInfoPanel()
-      }
       applyAnalyseAll()
+    } else if (currentTab === 'abstention') {
+      applyAbstentionColors()
+      renderAbstention()
+    } else if (currentTab === 'repartition') {
+      applyRepartitionColors()
+      renderRepartition()
     } else {
-      // Repasser en mode couleurs par bureau
       restoreNormalColors()
     }
   })
@@ -417,18 +468,25 @@ function applySimple() {
     .map(f => ({ code: f.properties.codeBureauVote, score: getScore(f.properties.codeBureauVote, libelle) }))
     .filter(b => b.score !== null).sort((a, b) => b.score - a.score)
   const range = max - min || 1
-  bureauListAnalyse.innerHTML = sorted.map(({ code, score }) => `
-    <li class="bureau-item analyse-item">
-      <div class="bureau-label" style="flex:1">
-        <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
-        <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
-        <div class="analyse-bar-wrap">
-          <div class="analyse-bar" style="width:${Math.round((score-min)/range*100)}%;background:${color}"></div>
+  bureauListAnalyse.innerHTML = sorted.map(({ code, score }) => {
+    const both = getBothScores(code, libelle)
+    return `
+      <li class="bureau-item analyse-item">
+        <div class="bureau-label" style="flex:1">
+          <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
+          <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
+          <div class="analyse-bar-wrap">
+            <div class="analyse-bar" style="width:${Math.round((score-min)/range*100)}%;background:${color}"></div>
+          </div>
         </div>
-      </div>
-      <div class="analyse-score">${activeMetric === 'pct' ? score.toFixed(1)+'%' : score+' voix'}</div>
-    </li>
-  `).join('')
+        <div class="analyse-score" style="text-align:right">${
+          activeMetric === 'voix'
+            ? `<div>${both.voix} voix</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${both.pct.toFixed(1)}%</div>`
+            : `<div>${both.pct.toFixed(1)}%</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${both.voix} voix</div>`
+        }</div>
+      </li>
+    `
+  }).join('')
 }
 
 // ── Mode écart ───────────────────────────────────────────────
@@ -441,10 +499,12 @@ function applyEcart() {
   const colorB = getListColor(libB)
 
   const ecarts = allFeatures.map(f => {
-    const code   = f.properties.codeBureauVote
-    const scoreA = getScore(code, libA) ?? 0
-    const scoreB = getScore(code, libB) ?? 0
-    return { code, ecart: scoreA - scoreB, scoreA, scoreB }
+    const code  = f.properties.codeBureauVote
+    const bothA = getBothScores(code, libA)
+    const bothB = getBothScores(code, libB)
+    const scoreA = activeMetric === 'pct' ? bothA.pct : bothA.voix
+    const scoreB = activeMetric === 'pct' ? bothB.pct : bothB.voix
+    return { code, ecart: scoreA - scoreB, ecartVoix: bothA.voix - bothB.voix, ecartPct: bothA.pct - bothB.pct, bothA, bothB }
   })
 
   const vals  = ecarts.map(e => e.ecart)
@@ -457,7 +517,6 @@ function applyEcart() {
     layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: opacity, color: '#0f1117', weight: 1.5 })
   })
 
-  const fmt = v => activeMetric === 'pct' ? `${v > 0 ? '+' : ''}${v.toFixed(1)}%` : `${v > 0 ? '+' : ''}${Math.round(v)} voix`
   legendWrap.innerHTML = `
     <div class="legend-label-row">
       <span style="color:${colorB}">← ${libB.length > 20 ? libB.slice(0,20)+'…' : libB}</span>
@@ -468,14 +527,13 @@ function applyEcart() {
   `
 
   const sorted = [...ecarts].sort((a, b) => b.ecart - a.ecart)
-  bureauListAnalyse.innerHTML = sorted.map(({ code, ecart, scoreA, scoreB }) => {
-    const num     = parseInt(code)
-    const color   = ecart >= 0 ? colorA : colorB
-    const barPct  = Math.round(Math.abs(ecart) / maxAbs * 100)
-    const label   = fmt(ecart)
-    const detail  = activeMetric === 'pct'
-      ? `A: ${scoreA.toFixed(1)}% · B: ${scoreB.toFixed(1)}%`
-      : `A: ${scoreA} voix · B: ${scoreB} voix`
+  bureauListAnalyse.innerHTML = sorted.map(({ code, ecart, ecartVoix, ecartPct, bothA, bothB }) => {
+    const num    = parseInt(code)
+    const color  = ecart >= 0 ? colorA : colorB
+    const barPct = Math.round(Math.abs(ecart) / maxAbs * 100)
+    const detail = `A: ${bothA.voix} voix (${bothA.pct.toFixed(1)}%) · B: ${bothB.voix} voix (${bothB.pct.toFixed(1)}%)`
+    const signV  = ecartVoix > 0 ? '+' : ''
+    const signP  = ecartPct  > 0 ? '+' : ''
     return `
       <li class="bureau-item analyse-item">
         <div class="bureau-label" style="flex:1">
@@ -486,7 +544,11 @@ function applyEcart() {
             <div class="analyse-bar" style="width:${barPct}%;background:${color}"></div>
           </div>
         </div>
-        <div class="analyse-score" style="color:${color}">${label}</div>
+        <div class="analyse-score" style="color:${color};text-align:right">${
+          activeMetric === 'voix'
+            ? `<div>${signV}${ecartVoix} voix</div><div style="font-size:10px;font-weight:400">${signP}${ecartPct.toFixed(1)} pts</div>`
+            : `<div>${signP}${ecartPct.toFixed(1)} pts</div><div style="font-size:10px;font-weight:400">${signV}${ecartVoix} voix</div>`
+        }</div>
       </li>
     `
   }).join('')
@@ -505,6 +567,251 @@ function applyAnalyseStyle(code) {
   } else {
     applyEcart()
   }
+}
+
+// ─── Onglet Abstention ────────────────────────────────────────────────────────
+function getAbstentionVal(code) {
+  const r = resultats[code]
+  if (!r) return 0
+  return abstentionMetric === 'voix'
+    ? (r.abstentions ?? 0)
+    : (r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0)
+}
+
+function getAbstentionData() {
+  const vals = allFeatures.map(f => getAbstentionVal(f.properties.codeBureauVote))
+  return { min: Math.min(...vals), max: Math.max(...vals) }
+}
+
+function applyAbstentionColors() {
+  const { min, max } = getAbstentionData()
+  allFeatures.forEach(f => {
+    const code = f.properties.codeBureauVote
+    const val  = getAbstentionVal(code)
+    const t    = (val - min) / (max - min || 1)
+    layers[code]?.layer.setStyle({ fillColor: ABSTENTION_COLOR, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+  })
+}
+
+function applyAbstentionStyle(code) {
+  const { min, max } = getAbstentionData()
+  const val = getAbstentionVal(code)
+  const t   = (val - min) / (max - min || 1)
+  layers[code]?.layer.setStyle({ fillColor: ABSTENTION_COLOR, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+}
+
+function renderAbstention() {
+  const bureauListAbstention = document.getElementById('bureau-list-abstention')
+  const abstentionCount      = document.getElementById('abstention-count')
+  const { min, max }         = getAbstentionData()
+  const range                = max - min || 1
+
+  const sorted = allFeatures.map(f => {
+    const code        = f.properties.codeBureauVote
+    const r           = resultats[code]
+    const abstentions = r?.abstentions ?? 0
+    const pct         = r && r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0
+    return { code, abstentions, pct }
+  }).sort((a, b) =>
+    abstentionMetric === 'voix' ? b.abstentions - a.abstentions : b.pct - a.pct
+  )
+
+  if (abstentionCount) abstentionCount.textContent = sorted.length
+
+  bureauListAbstention.innerHTML = sorted.map(({ code, abstentions, pct }) => `
+    <li class="bureau-item analyse-item">
+      <div class="bureau-label" style="flex:1">
+        <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
+        <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
+        <div class="analyse-bar-wrap">
+          <div class="analyse-bar" style="width:${Math.round((getAbstentionVal(code) - min) / range * 100)}%;background:${ABSTENTION_COLOR}"></div>
+        </div>
+      </div>
+      <div class="analyse-score" style="text-align:right">${
+        abstentionMetric === 'voix'
+          ? `<div>${abstentions} abs.</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${pct.toFixed(1)}%</div>`
+          : `<div>${pct.toFixed(1)}%</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${abstentions} abs.</div>`
+      }</div>
+    </li>
+  `).join('')
+}
+
+function initAbstentionMetric() {
+  document.querySelectorAll('.abst-metric-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.abst-metric-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      abstentionMetric = btn.dataset.metric
+      if (currentTab === 'abstention') {
+        applyAbstentionColors()
+        renderAbstention()
+      }
+    })
+  })
+}
+
+// ─── Onglet Répartition ───────────────────────────────────────────────────────
+function getRepartitionColor() {
+  if (repartitionSelected.size === 1) {
+    const [key] = repartitionSelected
+    return key === '__abstentions__' ? ABSTENTION_COLOR : getListColor(key)
+  }
+  return '#4f7ef7'
+}
+
+function getRepartitionVal(code) {
+  if (repartitionSelected.size === 0) return 0
+  const r = resultats[code]
+  if (!r) return 0
+  let total = 0
+  repartitionSelected.forEach(key => {
+    if (key === '__abstentions__') {
+      total += repartitionMetric === 'voix'
+        ? (r.abstentions ?? 0)
+        : (r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0)
+    } else {
+      const cand = r.candidats.find(c => c.libelle === key)
+      total += repartitionMetric === 'voix'
+        ? (cand?.voix ?? 0)
+        : (r.inscrits > 0 ? (cand?.voix ?? 0) / r.inscrits * 100 : 0)
+    }
+  })
+  return total
+}
+
+function getRepartitionData() {
+  const vals = allFeatures.map(f => getRepartitionVal(f.properties.codeBureauVote))
+  return { min: Math.min(...vals), max: Math.max(...vals) }
+}
+
+function applyRepartitionColors() {
+  if (repartitionSelected.size === 0) {
+    restoreNormalColors()
+    document.getElementById('legend-wrap-rep').innerHTML = ''
+    return
+  }
+  const { min, max } = getRepartitionData()
+  const color = getRepartitionColor()
+  allFeatures.forEach(f => {
+    const code = f.properties.codeBureauVote
+    const val  = getRepartitionVal(code)
+    const t    = (val - min) / (max - min || 1)
+    layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+  })
+  const fmt   = v => repartitionMetric === 'voix' ? `${Math.round(v)} voix` : `${v.toFixed(1)}%`
+  const n     = repartitionSelected.size
+  const label = n === 1
+    ? ([...repartitionSelected][0] === '__abstentions__' ? 'Abstentions' : [...repartitionSelected][0])
+    : `${n} listes sélectionnées`
+  const caption = label.length > 34 ? label.slice(0, 34) + '…' : label
+  document.getElementById('legend-wrap-rep').innerHTML = `
+    <div class="legend-label-row"><span>${fmt(min)}</span><span>${fmt(max)}</span></div>
+    <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(color, 0.1)},${hexToRgba(color, 0.9)})"></div>
+    <div class="legend-caption">${caption}</div>
+  `
+}
+
+function applyRepartitionStyle(code) {
+  if (repartitionSelected.size === 0) return
+  const { min, max } = getRepartitionData()
+  const val   = getRepartitionVal(code)
+  const t     = (val - min) / (max - min || 1)
+  const color = getRepartitionColor()
+  layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+}
+
+function renderRepartition() {
+  const bureauListRep = document.getElementById('bureau-list-repartition')
+  if (repartitionSelected.size === 0) {
+    bureauListRep.innerHTML = '<li style="padding:16px;color:var(--text-muted);font-size:12px;text-align:center">Sélectionnez au moins une liste</li>'
+    return
+  }
+  const { min, max } = getRepartitionData()
+  const range        = max - min || 1
+  const color        = getRepartitionColor()
+
+  const sorted = allFeatures.map(f => {
+    const code = f.properties.codeBureauVote
+    const r    = resultats[code]
+    let voix = 0, pct = 0
+    repartitionSelected.forEach(key => {
+      if (key === '__abstentions__') {
+        voix += r?.abstentions ?? 0
+        pct  += r && r.inscrits > 0 ? r.abstentions / r.inscrits * 100 : 0
+      } else {
+        const cand = r?.candidats.find(c => c.libelle === key)
+        const v = cand?.voix ?? 0
+        voix += v
+        pct  += r && r.inscrits > 0 ? v / r.inscrits * 100 : 0
+      }
+    })
+    return { code, voix, pct }
+  }).sort((a, b) => repartitionMetric === 'voix' ? b.voix - a.voix : b.pct - a.pct)
+
+  bureauListRep.innerHTML = sorted.map(({ code, voix, pct }) => `
+    <li class="bureau-item analyse-item">
+      <div class="bureau-label" style="flex:1">
+        <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
+        <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
+        <div class="analyse-bar-wrap">
+          <div class="analyse-bar" style="width:${Math.round((getRepartitionVal(code) - min) / range * 100)}%;background:${color}"></div>
+        </div>
+      </div>
+      <div class="analyse-score" style="text-align:right">${
+        repartitionMetric === 'voix'
+          ? `<div>${voix} voix</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${pct.toFixed(1)}%</div>`
+          : `<div>${pct.toFixed(1)}%</div><div style="font-size:10px;font-weight:400;color:var(--text-muted)">${voix} voix</div>`
+      }</div>
+    </li>
+  `).join('')
+}
+
+function setAllRepartition(checked) {
+  document.querySelectorAll('#rep-checklist input[type="checkbox"]').forEach(cb => {
+    cb.checked = checked
+    checked ? repartitionSelected.add(cb.value) : repartitionSelected.delete(cb.value)
+  })
+  if (currentTab === 'repartition') { applyRepartitionColors(); renderRepartition() }
+}
+
+function initRepartition() {
+  const totaux = {}
+  Object.values(resultats).forEach(b => {
+    b.candidats.forEach(c => { totaux[c.libelle] = (totaux[c.libelle] ?? 0) + (c.voix ?? 0) })
+  })
+  const listes = Object.entries(totaux).sort((a, b) => b[1] - a[1])
+
+  const items = [
+    { key: '__abstentions__', label: 'Abstentions', color: ABSTENTION_COLOR },
+    ...listes.map(([lib]) => ({ key: lib, label: lib, color: getListColor(lib) })),
+  ]
+
+  document.getElementById('rep-checklist').innerHTML = items.map(({ key, label, color }) => `
+    <label class="rep-check-item">
+      <input type="checkbox" value="${key}">
+      <div class="rep-check-swatch" style="background:${color}"></div>
+      <span class="rep-check-label" title="${label}">${label}</span>
+    </label>
+  `).join('')
+
+  document.querySelectorAll('#rep-checklist input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.checked ? repartitionSelected.add(cb.value) : repartitionSelected.delete(cb.value)
+      if (currentTab === 'repartition') { applyRepartitionColors(); renderRepartition() }
+    })
+  })
+
+  document.getElementById('rep-select-all').addEventListener('click',  () => setAllRepartition(true))
+  document.getElementById('rep-select-none').addEventListener('click', () => setAllRepartition(false))
+
+  document.querySelectorAll('.rep-metric-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rep-metric-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      repartitionMetric = btn.dataset.metric
+      if (currentTab === 'repartition') { applyRepartitionColors(); renderRepartition() }
+    })
+  })
 }
 
 // ─── Utilitaires ─────────────────────────────────────────────────────────────
