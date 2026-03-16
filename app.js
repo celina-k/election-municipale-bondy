@@ -494,7 +494,6 @@ function applySimple() {
   const sorted = allFeatures
     .map(f => ({ code: f.properties.codeBureauVote, score: getScore(f.properties.codeBureauVote, libelle) }))
     .filter(b => b.score !== null).sort((a, b) => b.score - a.score)
-  const range = max - min || 1
   bureauListAnalyse.innerHTML = sorted.map(({ code, score }) => {
     const both = getBothScores(code, libelle)
     return `
@@ -503,7 +502,7 @@ function applySimple() {
           <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
           <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
           <div class="analyse-bar-wrap">
-            <div class="analyse-bar" style="width:${Math.round((score-min)/range*100)}%;background:${color}"></div>
+            <div class="analyse-bar" style="width:${max > 0 ? Math.round(score/max*100) : 0}%;background:${color}"></div>
           </div>
         </div>
         <div class="analyse-score" style="text-align:right">${
@@ -630,8 +629,7 @@ function applyAbstentionStyle(code) {
 function renderAbstention() {
   const bureauListAbstention = document.getElementById('bureau-list-abstention')
   const abstentionCount      = document.getElementById('abstention-count')
-  const { min, max }         = getAbstentionData()
-  const range                = max - min || 1
+  const { max }              = getAbstentionData()
 
   const sorted = allFeatures.map(f => {
     const code        = f.properties.codeBureauVote
@@ -651,7 +649,7 @@ function renderAbstention() {
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
         <div class="analyse-bar-wrap">
-          <div class="analyse-bar" style="width:${Math.round((getAbstentionVal(code) - min) / range * 100)}%;background:${ABSTENTION_COLOR}"></div>
+          <div class="analyse-bar" style="width:${max > 0 ? Math.round(getAbstentionVal(code) / max * 100) : 0}%;background:${ABSTENTION_COLOR}"></div>
         </div>
       </div>
       <div class="analyse-score" style="text-align:right">${
@@ -760,9 +758,8 @@ function renderRepartition() {
     bureauListRep.innerHTML = '<li style="padding:16px;color:var(--text-muted);font-size:12px;text-align:center">Sélectionnez au moins une liste</li>'
     return
   }
-  const { min, max } = getRepartitionData()
-  const range        = max - min || 1
-  const color        = getRepartitionColor()
+  const { max } = getRepartitionData()
+  const color   = getRepartitionColor()
 
   const sorted = allFeatures.map(f => {
     const code = f.properties.codeBureauVote
@@ -792,7 +789,7 @@ function renderRepartition() {
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
         <div class="analyse-bar-wrap">
-          <div class="analyse-bar" style="width:${Math.round((getRepartitionVal(code) - min) / range * 100)}%;background:${color}"></div>
+          <div class="analyse-bar" style="width:${max > 0 ? Math.round(getRepartitionVal(code) / max * 100) : 0}%;background:${color}"></div>
         </div>
       </div>
       <div class="analyse-score" style="text-align:right">${
