@@ -1,0 +1,1806 @@
+{
+  "commune": "Bondy",
+  "codeCommune": "93010",
+  "election": "Élections municipales 2026 — 1er tour (15 mars 2026)",
+  "source": {
+    "url": "https://static.data.gouv.fr/resources/elections-municipales-2026-resultats-du-premier-tour/20260316-160710/municipales-2026-resultats-bv-par-communes-2026-03-16.csv",
+    "taille": "~37 MB",
+    "producteur": "Ministère de l'Intérieur via data.gouv.fr",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "dataset": "https://www.data.gouv.fr/fr/datasets/elections-municipales-2026-resultats-du-premier-tour/"
+  },
+  "bureaux": [
+    {
+      "codeBureauVote": "0001",
+      "inscrits": 795,
+      "abstentions": 440,
+      "votants": 355,
+      "blancs": 6,
+      "nuls": 5,
+      "exprimes": 344,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 164,
+          "pctExprimes": 47.67,
+          "pctInscrits": 20.63
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 8,
+          "pctExprimes": 2.33,
+          "pctInscrits": 1.01
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 18,
+          "pctExprimes": 5.23,
+          "pctInscrits": 2.26
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 82,
+          "pctExprimes": 23.84,
+          "pctInscrits": 10.31
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 60,
+          "pctExprimes": 17.44,
+          "pctInscrits": 7.55
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 12,
+          "pctExprimes": 3.49,
+          "pctInscrits": 1.51
+        }
+      ],
+      "tauxParticipation": 44.65,
+      "tauxAbstention": 55.35,
+      "tauxBlancsNuls": 3.1
+    },
+    {
+      "codeBureauVote": "0002",
+      "inscrits": 807,
+      "abstentions": 369,
+      "votants": 438,
+      "blancs": 7,
+      "nuls": 5,
+      "exprimes": 426,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 202,
+          "pctExprimes": 47.42,
+          "pctInscrits": 25.03
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 5,
+          "pctExprimes": 1.17,
+          "pctInscrits": 0.62
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 21,
+          "pctExprimes": 4.93,
+          "pctInscrits": 2.6
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 122,
+          "pctExprimes": 28.64,
+          "pctInscrits": 15.12
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 59,
+          "pctExprimes": 13.85,
+          "pctInscrits": 7.31
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 17,
+          "pctExprimes": 3.99,
+          "pctInscrits": 2.11
+        }
+      ],
+      "tauxParticipation": 54.28,
+      "tauxAbstention": 45.72,
+      "tauxBlancsNuls": 2.74
+    },
+    {
+      "codeBureauVote": "0003",
+      "inscrits": 1073,
+      "abstentions": 611,
+      "votants": 462,
+      "blancs": 8,
+      "nuls": 2,
+      "exprimes": 452,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 155,
+          "pctExprimes": 34.29,
+          "pctInscrits": 14.45
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 27,
+          "pctExprimes": 5.97,
+          "pctInscrits": 2.52
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 28,
+          "pctExprimes": 6.19,
+          "pctInscrits": 2.61
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 153,
+          "pctExprimes": 33.85,
+          "pctInscrits": 14.26
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 74,
+          "pctExprimes": 16.37,
+          "pctInscrits": 6.9
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 15,
+          "pctExprimes": 3.32,
+          "pctInscrits": 1.4
+        }
+      ],
+      "tauxParticipation": 43.06,
+      "tauxAbstention": 56.94,
+      "tauxBlancsNuls": 2.16
+    },
+    {
+      "codeBureauVote": "0004",
+      "inscrits": 1013,
+      "abstentions": 636,
+      "votants": 377,
+      "blancs": 8,
+      "nuls": 9,
+      "exprimes": 360,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 141,
+          "pctExprimes": 39.17,
+          "pctInscrits": 13.92
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 39,
+          "pctExprimes": 10.83,
+          "pctInscrits": 3.85
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 12,
+          "pctExprimes": 3.33,
+          "pctInscrits": 1.18
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 95,
+          "pctExprimes": 26.39,
+          "pctInscrits": 9.38
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 64,
+          "pctExprimes": 17.78,
+          "pctInscrits": 6.32
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 9,
+          "pctExprimes": 2.5,
+          "pctInscrits": 0.89
+        }
+      ],
+      "tauxParticipation": 37.22,
+      "tauxAbstention": 62.78,
+      "tauxBlancsNuls": 4.51
+    },
+    {
+      "codeBureauVote": "0005",
+      "inscrits": 854,
+      "abstentions": 522,
+      "votants": 332,
+      "blancs": 0,
+      "nuls": 8,
+      "exprimes": 324,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 82,
+          "pctExprimes": 25.31,
+          "pctInscrits": 9.6
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 13,
+          "pctExprimes": 4.01,
+          "pctInscrits": 1.52
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 5,
+          "pctExprimes": 1.54,
+          "pctInscrits": 0.59
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 105,
+          "pctExprimes": 32.41,
+          "pctInscrits": 12.3
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 111,
+          "pctExprimes": 34.26,
+          "pctInscrits": 13.0
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 8,
+          "pctExprimes": 2.47,
+          "pctInscrits": 0.94
+        }
+      ],
+      "tauxParticipation": 38.88,
+      "tauxAbstention": 61.12,
+      "tauxBlancsNuls": 2.41
+    },
+    {
+      "codeBureauVote": "0006",
+      "inscrits": 946,
+      "abstentions": 567,
+      "votants": 379,
+      "blancs": 3,
+      "nuls": 2,
+      "exprimes": 374,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 150,
+          "pctExprimes": 40.11,
+          "pctInscrits": 15.86
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 35,
+          "pctExprimes": 9.36,
+          "pctInscrits": 3.7
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 5,
+          "pctExprimes": 1.34,
+          "pctInscrits": 0.53
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 88,
+          "pctExprimes": 23.53,
+          "pctInscrits": 9.3
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 91,
+          "pctExprimes": 24.33,
+          "pctInscrits": 9.62
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 5,
+          "pctExprimes": 1.34,
+          "pctInscrits": 0.53
+        }
+      ],
+      "tauxParticipation": 40.06,
+      "tauxAbstention": 59.94,
+      "tauxBlancsNuls": 1.32
+    },
+    {
+      "codeBureauVote": "0007",
+      "inscrits": 897,
+      "abstentions": 562,
+      "votants": 335,
+      "blancs": 5,
+      "nuls": 5,
+      "exprimes": 325,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 123,
+          "pctExprimes": 37.85,
+          "pctInscrits": 13.71
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 19,
+          "pctExprimes": 5.85,
+          "pctInscrits": 2.12
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 8,
+          "pctExprimes": 2.46,
+          "pctInscrits": 0.89
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 94,
+          "pctExprimes": 28.92,
+          "pctInscrits": 10.48
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 78,
+          "pctExprimes": 24.0,
+          "pctInscrits": 8.7
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 3,
+          "pctExprimes": 0.92,
+          "pctInscrits": 0.33
+        }
+      ],
+      "tauxParticipation": 37.35,
+      "tauxAbstention": 62.65,
+      "tauxBlancsNuls": 2.99
+    },
+    {
+      "codeBureauVote": "0008",
+      "inscrits": 945,
+      "abstentions": 528,
+      "votants": 417,
+      "blancs": 8,
+      "nuls": 7,
+      "exprimes": 402,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 123,
+          "pctExprimes": 30.6,
+          "pctInscrits": 13.02
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 33,
+          "pctExprimes": 8.21,
+          "pctInscrits": 3.49
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 32,
+          "pctExprimes": 7.96,
+          "pctInscrits": 3.39
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 120,
+          "pctExprimes": 29.85,
+          "pctInscrits": 12.7
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 65,
+          "pctExprimes": 16.17,
+          "pctInscrits": 6.88
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 29,
+          "pctExprimes": 7.21,
+          "pctInscrits": 3.07
+        }
+      ],
+      "tauxParticipation": 44.13,
+      "tauxAbstention": 55.87,
+      "tauxBlancsNuls": 3.6
+    },
+    {
+      "codeBureauVote": "0009",
+      "inscrits": 850,
+      "abstentions": 527,
+      "votants": 323,
+      "blancs": 7,
+      "nuls": 3,
+      "exprimes": 313,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 126,
+          "pctExprimes": 40.26,
+          "pctInscrits": 14.82
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 32,
+          "pctExprimes": 10.22,
+          "pctInscrits": 3.76
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 9,
+          "pctExprimes": 2.88,
+          "pctInscrits": 1.06
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 81,
+          "pctExprimes": 25.88,
+          "pctInscrits": 9.53
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 64,
+          "pctExprimes": 20.45,
+          "pctInscrits": 7.53
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 1,
+          "pctExprimes": 0.32,
+          "pctInscrits": 0.12
+        }
+      ],
+      "tauxParticipation": 38.0,
+      "tauxAbstention": 62.0,
+      "tauxBlancsNuls": 3.1
+    },
+    {
+      "codeBureauVote": "0010",
+      "inscrits": 828,
+      "abstentions": 495,
+      "votants": 333,
+      "blancs": 8,
+      "nuls": 7,
+      "exprimes": 318,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 114,
+          "pctExprimes": 35.85,
+          "pctInscrits": 13.77
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 25,
+          "pctExprimes": 7.86,
+          "pctInscrits": 3.02
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 26,
+          "pctExprimes": 8.18,
+          "pctInscrits": 3.14
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 94,
+          "pctExprimes": 29.56,
+          "pctInscrits": 11.35
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 53,
+          "pctExprimes": 16.67,
+          "pctInscrits": 6.4
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 6,
+          "pctExprimes": 1.89,
+          "pctInscrits": 0.72
+        }
+      ],
+      "tauxParticipation": 40.22,
+      "tauxAbstention": 59.78,
+      "tauxBlancsNuls": 4.5
+    },
+    {
+      "codeBureauVote": "0011",
+      "inscrits": 724,
+      "abstentions": 431,
+      "votants": 293,
+      "blancs": 4,
+      "nuls": 10,
+      "exprimes": 279,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 129,
+          "pctExprimes": 46.24,
+          "pctInscrits": 17.82
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 13,
+          "pctExprimes": 4.66,
+          "pctInscrits": 1.8
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 4,
+          "pctExprimes": 1.43,
+          "pctInscrits": 0.55
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 77,
+          "pctExprimes": 27.6,
+          "pctInscrits": 10.64
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 46,
+          "pctExprimes": 16.49,
+          "pctInscrits": 6.35
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 10,
+          "pctExprimes": 3.58,
+          "pctInscrits": 1.38
+        }
+      ],
+      "tauxParticipation": 40.47,
+      "tauxAbstention": 59.53,
+      "tauxBlancsNuls": 4.78
+    },
+    {
+      "codeBureauVote": "0012",
+      "inscrits": 673,
+      "abstentions": 392,
+      "votants": 281,
+      "blancs": 2,
+      "nuls": 2,
+      "exprimes": 277,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 120,
+          "pctExprimes": 43.32,
+          "pctInscrits": 17.83
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 20,
+          "pctExprimes": 7.22,
+          "pctInscrits": 2.97
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 8,
+          "pctExprimes": 2.89,
+          "pctInscrits": 1.19
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 68,
+          "pctExprimes": 24.55,
+          "pctInscrits": 10.1
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 49,
+          "pctExprimes": 17.69,
+          "pctInscrits": 7.28
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 12,
+          "pctExprimes": 4.33,
+          "pctInscrits": 1.78
+        }
+      ],
+      "tauxParticipation": 41.75,
+      "tauxAbstention": 58.25,
+      "tauxBlancsNuls": 1.42
+    },
+    {
+      "codeBureauVote": "0013",
+      "inscrits": 589,
+      "abstentions": 313,
+      "votants": 276,
+      "blancs": 4,
+      "nuls": 3,
+      "exprimes": 269,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 127,
+          "pctExprimes": 47.21,
+          "pctInscrits": 21.56
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 9,
+          "pctExprimes": 3.35,
+          "pctInscrits": 1.53
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 8,
+          "pctExprimes": 2.97,
+          "pctInscrits": 1.36
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 74,
+          "pctExprimes": 27.51,
+          "pctInscrits": 12.56
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 43,
+          "pctExprimes": 15.99,
+          "pctInscrits": 7.3
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 8,
+          "pctExprimes": 2.97,
+          "pctInscrits": 1.36
+        }
+      ],
+      "tauxParticipation": 46.86,
+      "tauxAbstention": 53.14,
+      "tauxBlancsNuls": 2.54
+    },
+    {
+      "codeBureauVote": "0014",
+      "inscrits": 765,
+      "abstentions": 492,
+      "votants": 273,
+      "blancs": 5,
+      "nuls": 6,
+      "exprimes": 262,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 101,
+          "pctExprimes": 38.55,
+          "pctInscrits": 13.2
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 15,
+          "pctExprimes": 5.73,
+          "pctInscrits": 1.96
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 12,
+          "pctExprimes": 4.58,
+          "pctInscrits": 1.57
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 77,
+          "pctExprimes": 29.39,
+          "pctInscrits": 10.07
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 42,
+          "pctExprimes": 16.03,
+          "pctInscrits": 5.49
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 15,
+          "pctExprimes": 5.73,
+          "pctInscrits": 1.96
+        }
+      ],
+      "tauxParticipation": 35.69,
+      "tauxAbstention": 64.31,
+      "tauxBlancsNuls": 4.03
+    },
+    {
+      "codeBureauVote": "0015",
+      "inscrits": 1018,
+      "abstentions": 530,
+      "votants": 488,
+      "blancs": 6,
+      "nuls": 1,
+      "exprimes": 481,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 245,
+          "pctExprimes": 50.94,
+          "pctInscrits": 24.07
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 16,
+          "pctExprimes": 3.33,
+          "pctInscrits": 1.57
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 14,
+          "pctExprimes": 2.91,
+          "pctInscrits": 1.38
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 90,
+          "pctExprimes": 18.71,
+          "pctInscrits": 8.84
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 92,
+          "pctExprimes": 19.13,
+          "pctInscrits": 9.04
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 24,
+          "pctExprimes": 4.99,
+          "pctInscrits": 2.36
+        }
+      ],
+      "tauxParticipation": 47.94,
+      "tauxAbstention": 52.06,
+      "tauxBlancsNuls": 1.43
+    },
+    {
+      "codeBureauVote": "0016",
+      "inscrits": 883,
+      "abstentions": 412,
+      "votants": 471,
+      "blancs": 11,
+      "nuls": 2,
+      "exprimes": 458,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 196,
+          "pctExprimes": 42.79,
+          "pctInscrits": 22.2
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 36,
+          "pctExprimes": 7.86,
+          "pctInscrits": 4.08
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 9,
+          "pctExprimes": 1.97,
+          "pctInscrits": 1.02
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 134,
+          "pctExprimes": 29.26,
+          "pctInscrits": 15.18
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 73,
+          "pctExprimes": 15.94,
+          "pctInscrits": 8.27
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 10,
+          "pctExprimes": 2.18,
+          "pctInscrits": 1.13
+        }
+      ],
+      "tauxParticipation": 53.34,
+      "tauxAbstention": 46.66,
+      "tauxBlancsNuls": 2.76
+    },
+    {
+      "codeBureauVote": "0017",
+      "inscrits": 918,
+      "abstentions": 513,
+      "votants": 405,
+      "blancs": 2,
+      "nuls": 7,
+      "exprimes": 396,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 171,
+          "pctExprimes": 43.18,
+          "pctInscrits": 18.63
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 19,
+          "pctExprimes": 4.8,
+          "pctInscrits": 2.07
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 5,
+          "pctExprimes": 1.26,
+          "pctInscrits": 0.54
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 165,
+          "pctExprimes": 41.67,
+          "pctInscrits": 17.97
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 27,
+          "pctExprimes": 6.82,
+          "pctInscrits": 2.94
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 9,
+          "pctExprimes": 2.27,
+          "pctInscrits": 0.98
+        }
+      ],
+      "tauxParticipation": 44.12,
+      "tauxAbstention": 55.88,
+      "tauxBlancsNuls": 2.22
+    },
+    {
+      "codeBureauVote": "0018",
+      "inscrits": 765,
+      "abstentions": 443,
+      "votants": 322,
+      "blancs": 10,
+      "nuls": 1,
+      "exprimes": 311,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 137,
+          "pctExprimes": 44.05,
+          "pctInscrits": 17.91
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 22,
+          "pctExprimes": 7.07,
+          "pctInscrits": 2.88
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 11,
+          "pctExprimes": 3.54,
+          "pctInscrits": 1.44
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 83,
+          "pctExprimes": 26.69,
+          "pctInscrits": 10.85
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 38,
+          "pctExprimes": 12.22,
+          "pctInscrits": 4.97
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 20,
+          "pctExprimes": 6.43,
+          "pctInscrits": 2.61
+        }
+      ],
+      "tauxParticipation": 42.09,
+      "tauxAbstention": 57.91,
+      "tauxBlancsNuls": 3.42
+    },
+    {
+      "codeBureauVote": "0019",
+      "inscrits": 661,
+      "abstentions": 324,
+      "votants": 337,
+      "blancs": 8,
+      "nuls": 3,
+      "exprimes": 326,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 168,
+          "pctExprimes": 51.53,
+          "pctInscrits": 25.42
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 16,
+          "pctExprimes": 4.91,
+          "pctInscrits": 2.42
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 9,
+          "pctExprimes": 2.76,
+          "pctInscrits": 1.36
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 80,
+          "pctExprimes": 24.54,
+          "pctInscrits": 12.1
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 47,
+          "pctExprimes": 14.42,
+          "pctInscrits": 7.11
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 6,
+          "pctExprimes": 1.84,
+          "pctInscrits": 0.91
+        }
+      ],
+      "tauxParticipation": 50.98,
+      "tauxAbstention": 49.02,
+      "tauxBlancsNuls": 3.26
+    },
+    {
+      "codeBureauVote": "0020",
+      "inscrits": 835,
+      "abstentions": 528,
+      "votants": 307,
+      "blancs": 5,
+      "nuls": 6,
+      "exprimes": 296,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 89,
+          "pctExprimes": 30.07,
+          "pctInscrits": 10.66
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 31,
+          "pctExprimes": 10.47,
+          "pctInscrits": 3.71
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 17,
+          "pctExprimes": 5.74,
+          "pctInscrits": 2.04
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 98,
+          "pctExprimes": 33.11,
+          "pctInscrits": 11.74
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 54,
+          "pctExprimes": 18.24,
+          "pctInscrits": 6.47
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 7,
+          "pctExprimes": 2.36,
+          "pctInscrits": 0.84
+        }
+      ],
+      "tauxParticipation": 36.77,
+      "tauxAbstention": 63.23,
+      "tauxBlancsNuls": 3.58
+    },
+    {
+      "codeBureauVote": "0021",
+      "inscrits": 911,
+      "abstentions": 591,
+      "votants": 320,
+      "blancs": 6,
+      "nuls": 5,
+      "exprimes": 309,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 102,
+          "pctExprimes": 33.01,
+          "pctInscrits": 11.2
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 28,
+          "pctExprimes": 9.06,
+          "pctInscrits": 3.07
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 7,
+          "pctExprimes": 2.27,
+          "pctInscrits": 0.77
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 102,
+          "pctExprimes": 33.01,
+          "pctInscrits": 11.2
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 61,
+          "pctExprimes": 19.74,
+          "pctInscrits": 6.7
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 9,
+          "pctExprimes": 2.91,
+          "pctInscrits": 0.99
+        }
+      ],
+      "tauxParticipation": 35.13,
+      "tauxAbstention": 64.87,
+      "tauxBlancsNuls": 3.44
+    },
+    {
+      "codeBureauVote": "0022",
+      "inscrits": 651,
+      "abstentions": 430,
+      "votants": 221,
+      "blancs": 3,
+      "nuls": 4,
+      "exprimes": 214,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 78,
+          "pctExprimes": 36.45,
+          "pctInscrits": 11.98
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 11,
+          "pctExprimes": 5.14,
+          "pctInscrits": 1.69
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 4,
+          "pctExprimes": 1.87,
+          "pctInscrits": 0.61
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 75,
+          "pctExprimes": 35.05,
+          "pctInscrits": 11.52
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 42,
+          "pctExprimes": 19.63,
+          "pctInscrits": 6.45
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 4,
+          "pctExprimes": 1.87,
+          "pctInscrits": 0.61
+        }
+      ],
+      "tauxParticipation": 33.95,
+      "tauxAbstention": 66.05,
+      "tauxBlancsNuls": 3.17
+    },
+    {
+      "codeBureauVote": "0023",
+      "inscrits": 791,
+      "abstentions": 444,
+      "votants": 347,
+      "blancs": 6,
+      "nuls": 6,
+      "exprimes": 335,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 146,
+          "pctExprimes": 43.58,
+          "pctInscrits": 18.46
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 12,
+          "pctExprimes": 3.58,
+          "pctInscrits": 1.52
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 3,
+          "pctExprimes": 0.9,
+          "pctInscrits": 0.38
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 88,
+          "pctExprimes": 26.27,
+          "pctInscrits": 11.13
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 70,
+          "pctExprimes": 20.9,
+          "pctInscrits": 8.85
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 16,
+          "pctExprimes": 4.78,
+          "pctInscrits": 2.02
+        }
+      ],
+      "tauxParticipation": 43.87,
+      "tauxAbstention": 56.13,
+      "tauxBlancsNuls": 3.46
+    },
+    {
+      "codeBureauVote": "0024",
+      "inscrits": 881,
+      "abstentions": 553,
+      "votants": 328,
+      "blancs": 4,
+      "nuls": 4,
+      "exprimes": 320,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 86,
+          "pctExprimes": 26.88,
+          "pctInscrits": 9.76
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 27,
+          "pctExprimes": 8.44,
+          "pctInscrits": 3.06
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 12,
+          "pctExprimes": 3.75,
+          "pctInscrits": 1.36
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 118,
+          "pctExprimes": 36.88,
+          "pctInscrits": 13.39
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 71,
+          "pctExprimes": 22.19,
+          "pctInscrits": 8.06
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 6,
+          "pctExprimes": 1.88,
+          "pctInscrits": 0.68
+        }
+      ],
+      "tauxParticipation": 37.23,
+      "tauxAbstention": 62.77,
+      "tauxBlancsNuls": 2.44
+    },
+    {
+      "codeBureauVote": "0025",
+      "inscrits": 952,
+      "abstentions": 624,
+      "votants": 328,
+      "blancs": 4,
+      "nuls": 7,
+      "exprimes": 317,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 116,
+          "pctExprimes": 36.59,
+          "pctInscrits": 12.18
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 24,
+          "pctExprimes": 7.57,
+          "pctInscrits": 2.52
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 15,
+          "pctExprimes": 4.73,
+          "pctInscrits": 1.58
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 101,
+          "pctExprimes": 31.86,
+          "pctInscrits": 10.61
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 51,
+          "pctExprimes": 16.09,
+          "pctInscrits": 5.36
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 10,
+          "pctExprimes": 3.15,
+          "pctInscrits": 1.05
+        }
+      ],
+      "tauxParticipation": 34.45,
+      "tauxAbstention": 65.55,
+      "tauxBlancsNuls": 3.35
+    },
+    {
+      "codeBureauVote": "0026",
+      "inscrits": 995,
+      "abstentions": 637,
+      "votants": 358,
+      "blancs": 10,
+      "nuls": 6,
+      "exprimes": 342,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 105,
+          "pctExprimes": 30.7,
+          "pctInscrits": 10.55
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 15,
+          "pctExprimes": 4.39,
+          "pctInscrits": 1.51
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 13,
+          "pctExprimes": 3.8,
+          "pctInscrits": 1.31
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 127,
+          "pctExprimes": 37.13,
+          "pctInscrits": 12.76
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 66,
+          "pctExprimes": 19.3,
+          "pctInscrits": 6.63
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 16,
+          "pctExprimes": 4.68,
+          "pctInscrits": 1.61
+        }
+      ],
+      "tauxParticipation": 35.98,
+      "tauxAbstention": 64.02,
+      "tauxBlancsNuls": 4.47
+    },
+    {
+      "codeBureauVote": "0027",
+      "inscrits": 978,
+      "abstentions": 552,
+      "votants": 426,
+      "blancs": 8,
+      "nuls": 6,
+      "exprimes": 412,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 168,
+          "pctExprimes": 40.78,
+          "pctInscrits": 17.18
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 24,
+          "pctExprimes": 5.83,
+          "pctInscrits": 2.45
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 15,
+          "pctExprimes": 3.64,
+          "pctInscrits": 1.53
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 104,
+          "pctExprimes": 25.24,
+          "pctInscrits": 10.63
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 72,
+          "pctExprimes": 17.48,
+          "pctInscrits": 7.36
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 29,
+          "pctExprimes": 7.04,
+          "pctInscrits": 2.97
+        }
+      ],
+      "tauxParticipation": 43.56,
+      "tauxAbstention": 56.44,
+      "tauxBlancsNuls": 3.29
+    },
+    {
+      "codeBureauVote": "0028",
+      "inscrits": 842,
+      "abstentions": 455,
+      "votants": 387,
+      "blancs": 10,
+      "nuls": 2,
+      "exprimes": 375,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 175,
+          "pctExprimes": 46.67,
+          "pctInscrits": 20.78
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 33,
+          "pctExprimes": 8.8,
+          "pctInscrits": 3.92
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 19,
+          "pctExprimes": 5.07,
+          "pctInscrits": 2.26
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 71,
+          "pctExprimes": 18.93,
+          "pctInscrits": 8.43
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 64,
+          "pctExprimes": 17.07,
+          "pctInscrits": 7.6
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 13,
+          "pctExprimes": 3.47,
+          "pctInscrits": 1.54
+        }
+      ],
+      "tauxParticipation": 45.96,
+      "tauxAbstention": 54.04,
+      "tauxBlancsNuls": 3.1
+    },
+    {
+      "codeBureauVote": "0029",
+      "inscrits": 618,
+      "abstentions": 362,
+      "votants": 256,
+      "blancs": 6,
+      "nuls": 4,
+      "exprimes": 246,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 120,
+          "pctExprimes": 48.78,
+          "pctInscrits": 19.42
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 8,
+          "pctExprimes": 3.25,
+          "pctInscrits": 1.29
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 8,
+          "pctExprimes": 3.25,
+          "pctInscrits": 1.29
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 64,
+          "pctExprimes": 26.02,
+          "pctInscrits": 10.36
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 32,
+          "pctExprimes": 13.01,
+          "pctInscrits": 5.18
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 14,
+          "pctExprimes": 5.69,
+          "pctInscrits": 2.27
+        }
+      ],
+      "tauxParticipation": 41.42,
+      "tauxAbstention": 58.58,
+      "tauxBlancsNuls": 3.91
+    },
+    {
+      "codeBureauVote": "0030",
+      "inscrits": 534,
+      "abstentions": 233,
+      "votants": 301,
+      "blancs": 5,
+      "nuls": 1,
+      "exprimes": 295,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 157,
+          "pctExprimes": 53.22,
+          "pctInscrits": 29.4
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 10,
+          "pctExprimes": 3.39,
+          "pctInscrits": 1.87
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 6,
+          "pctExprimes": 2.03,
+          "pctInscrits": 1.12
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 52,
+          "pctExprimes": 17.63,
+          "pctInscrits": 9.74
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 52,
+          "pctExprimes": 17.63,
+          "pctInscrits": 9.74
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 18,
+          "pctExprimes": 6.1,
+          "pctInscrits": 3.37
+        }
+      ],
+      "tauxParticipation": 56.37,
+      "tauxAbstention": 43.63,
+      "tauxBlancsNuls": 1.99
+    },
+    {
+      "codeBureauVote": "0031",
+      "inscrits": 904,
+      "abstentions": 502,
+      "votants": 402,
+      "blancs": 12,
+      "nuls": 5,
+      "exprimes": 385,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 158,
+          "pctExprimes": 41.04,
+          "pctInscrits": 17.48
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 15,
+          "pctExprimes": 3.9,
+          "pctInscrits": 1.66
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 19,
+          "pctExprimes": 4.94,
+          "pctInscrits": 2.1
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 80,
+          "pctExprimes": 20.78,
+          "pctInscrits": 8.85
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 98,
+          "pctExprimes": 25.45,
+          "pctInscrits": 10.84
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 15,
+          "pctExprimes": 3.9,
+          "pctInscrits": 1.66
+        }
+      ],
+      "tauxParticipation": 44.47,
+      "tauxAbstention": 55.53,
+      "tauxBlancsNuls": 4.23
+    },
+    {
+      "codeBureauVote": "0032",
+      "inscrits": 883,
+      "abstentions": 471,
+      "votants": 412,
+      "blancs": 4,
+      "nuls": 3,
+      "exprimes": 405,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 172,
+          "pctExprimes": 42.47,
+          "pctInscrits": 19.48
+        },
+        {
+          "numero": null,
+          "libelle": "LE PRINTEMPS BONDYNOIS",
+          "voix": 26,
+          "pctExprimes": 6.42,
+          "pctInscrits": 2.94
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy Autrement",
+          "voix": 13,
+          "pctExprimes": 3.21,
+          "pctInscrits": 1.47
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 115,
+          "pctExprimes": 28.4,
+          "pctInscrits": 13.02
+        },
+        {
+          "numero": null,
+          "libelle": "Bondy, ce qui nous rassemble",
+          "voix": 75,
+          "pctExprimes": 18.52,
+          "pctInscrits": 8.49
+        },
+        {
+          "numero": null,
+          "libelle": "BONDY A VENIR",
+          "voix": 4,
+          "pctExprimes": 0.99,
+          "pctInscrits": 0.45
+        }
+      ],
+      "tauxParticipation": 46.66,
+      "tauxAbstention": 53.34,
+      "tauxBlancsNuls": 1.7
+    }
+  ]
+}

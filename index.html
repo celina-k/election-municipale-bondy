@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Élections municipales Bondy 2026 — Bureaux de vote</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <header>
+    <div class="header-left">
+      <h1>Bondy — Élections municipales 2026</h1>
+      <span class="subtitle">1er tour · Bureaux de vote</span>
+    </div>
+    <div class="header-right">
+      <span class="badge">93 · Seine-Saint-Denis</span>
+    </div>
+  </header>
+
+  <!-- Onglets -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="bureaux">Bureaux de vote</button>
+    <button class="tab" data-tab="analyse">Analyse par liste</button>
+  </nav>
+
+  <div class="main-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <!-- Contenu onglet "Bureaux de vote" -->
+      <div class="tab-content" id="tab-bureaux">
+        <div class="sidebar-header">
+          <h2>Bureaux de vote</h2>
+          <span class="count" id="bureau-count">–</span>
+        </div>
+        <div class="search-box">
+          <input type="text" id="search" placeholder="Rechercher un bureau…" autocomplete="off">
+        </div>
+        <ul class="bureau-list" id="bureau-list"></ul>
+      </div>
+
+      <!-- Contenu onglet "Analyse par liste" -->
+      <div class="tab-content hidden" id="tab-analyse">
+        <div class="sidebar-header">
+          <h2>Analyse par liste</h2>
+        </div>
+        <div class="analyse-mode-wrap">
+          <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="simple">Une liste</button>
+            <button class="mode-btn" data-mode="ecart">Écart entre deux listes</button>
+          </div>
+        </div>
+
+        <div class="analyse-select-wrap">
+          <label for="liste-select" id="label-liste-a">Liste</label>
+          <select id="liste-select"></select>
+        </div>
+
+        <div class="analyse-select-wrap" id="liste-b-wrap" style="display:none">
+          <label for="liste-select-b">Comparer avec</label>
+          <select id="liste-select-b"></select>
+        </div>
+
+        <div class="analyse-metric-wrap">
+          <label>Afficher</label>
+          <div class="metric-toggle">
+            <button class="metric-btn active" data-metric="pct">% des exprimés</button>
+            <button class="metric-btn" data-metric="voix">Nb de voix</button>
+          </div>
+        </div>
+        <div class="legend-wrap" id="legend-wrap"></div>
+        <ul class="bureau-list" id="bureau-list-analyse"></ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>Source : <a href="https://www.data.gouv.fr/fr/datasets/proposition-de-contours-des-bureaux-de-vote-selon-la-methode-de-linsee/" target="_blank">data.gouv.fr</a> · Etalab</p>
+        <p>Fond de carte : <a href="https://geoplateforme.fr" target="_blank">IGN Géoplateforme</a></p>
+      </div>
+    </aside>
+
+    <!-- Carte -->
+    <div class="map-wrapper">
+      <div id="map"></div>
+
+      <!-- Panneau d'info bureau sélectionné -->
+      <div class="info-panel hidden" id="info-panel">
+        <button class="info-close" id="info-close">✕</button>
+        <div class="info-numero" id="info-numero"></div>
+        <div class="info-body" id="info-body"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
