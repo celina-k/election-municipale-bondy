@@ -22,6 +22,8 @@
   font-weight: 500;
   padding: 10px 14px;
   transition: color .15s, border-color .15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .tab:hover  { color: var(--text); }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
