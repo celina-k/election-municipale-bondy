@@ -544,8 +544,15 @@ header h1 { font-size: 16px; font-weight: 600; }
   .subtitle  { font-size: 11px; }
   .badge     { font-size: 11px; padding: 3px 9px; }
 
-  .tabs { padding: 0 8px; }
-  .tab  { padding: 9px 12px; font-size: 12px; }
+  .tabs {
+    padding: 0 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab  { padding: 9px 10px; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
 
   /* Layout vertical : carte en haut, sidebar en bas */
   .main-layout { flex-direction: column; }
