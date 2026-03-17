@@ -1,3 +1,8 @@
+/* ─── Carte Leaflet — suppression du rectangle de focus SVG ─── */
+.leaflet-interactive:focus {
+  outline: none;
+}
+
 /* ─── Onglets ───────────────────────────────────────────────── */
 .tabs {
   display: flex;
