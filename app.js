@@ -114,7 +114,6 @@ let repartitionSelected = new Set()   // Set de libelles + '__abstentions__'
 // ─── Éléments DOM ────────────────────────────────────────────────────────────
 const bureauList        = document.getElementById('bureau-list')
 const bureauCount       = document.getElementById('bureau-count')
-const searchInput       = document.getElementById('search')
 const infoPanel         = document.getElementById('info-panel')
 const infoNumero        = document.getElementById('info-numero')
 const infoBody          = document.getElementById('info-body')
@@ -404,16 +403,6 @@ infoClose.addEventListener('click', () => {
 })
 
 // ─── Recherche ───────────────────────────────────────────────────────────────
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase()
-  if (!q) { renderList(allFeatures); return }
-  const filtered = allFeatures.filter(f => {
-    const p   = f.properties
-    const num = parseInt(p.codeBureauVote).toString()
-    return num.includes(q) || (p.nomCirco ?? '').toLowerCase().includes(q)
-  })
-  renderList(filtered)
-})
 
 // ─── ONGLET ANALYSE ──────────────────────────────────────────────────────────
 
