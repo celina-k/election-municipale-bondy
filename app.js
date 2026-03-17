@@ -120,6 +120,7 @@ const infoBody          = document.getElementById('info-body')
 const infoClose         = document.getElementById('info-close')
 const listeSelect       = document.getElementById('liste-select')
 const listeSelectB      = document.getElementById('liste-select-b')
+const potentielListeSelect = document.getElementById('potentiel-liste-select')
 const listeBWrap        = document.getElementById('liste-b-wrap')
 const legendWrap        = document.getElementById('legend-wrap')
 const bureauListAnalyse = document.getElementById('bureau-list-analyse')
@@ -183,6 +184,13 @@ Promise.all([
           `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${nom}<br>${label}</div>`,
           { sticky: true, className: '' }
         ).openTooltip()
+      } else if (currentTab === 'potentiel') {
+        const val = getPotentielVal(code, potentielListeSelect?.value)
+        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
+        e.target.bindTooltip(
+          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${potentielListeSelect?.value ?? ''}<br>${val.toFixed(1)} voix potentielles</div>`,
+          { sticky: true, className: '' }
+        ).openTooltip()
       } else {
         const score = getScoreAnalyse(code)
         const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
@@ -203,6 +211,8 @@ Promise.all([
         applyAbstentionStyle(code)
       } else if (currentTab === 'repartition') {
         applyRepartitionStyle(code)
+      } else if (currentTab === 'potentiel') {
+        applyPotentielStyle(code)
       }
       e.target.closeTooltip()
     })
@@ -219,6 +229,7 @@ Promise.all([
   initAnalyse()
   initAbstentionMetric()
   initRepartition()
+  initPotentiel()
 })
 .catch(err => console.error('Erreur chargement données :', err))
 
@@ -247,6 +258,9 @@ document.querySelectorAll('.tab').forEach(btn => {
     } else if (currentTab === 'repartition') {
       applyRepartitionColors()
       renderRepartition()
+    } else if (currentTab === 'potentiel') {
+      applyPotentielColors()
+      renderPotentiel()
     } else {
       restoreNormalColors()
     }
@@ -420,8 +434,12 @@ function initAnalyse() {
 
   listeSelect.innerHTML  = optionsHTML
   listeSelectB.innerHTML = optionsHTML
-  // Sélectionner la 2e liste par défaut pour listeSelectB
-  if (listeSelectB.options.length > 1) listeSelectB.selectedIndex = 1
+  // Sélectionner "ÊTRE BONDY" par défaut si disponible
+  if ([...listeSelect.options].some(o => o.value === 'ÊTRE BONDY')) listeSelect.value = 'ÊTRE BONDY'
+  // Sélectionner la liste de Stephen Hervé par défaut pour listeSelectB
+  if ([...listeSelectB.options].some(o => o.value === 'Avec Stephen Hervé, continuons ensemble pour l\'avenir de Bondy'))
+    listeSelectB.value = 'Avec Stephen Hervé, continuons ensemble pour l\'avenir de Bondy'
+  else if (listeSelectB.options.length > 1) listeSelectB.selectedIndex = 1
 
   listeSelect.addEventListener('change', applyAnalyseAll)
   listeSelectB.addEventListener('change', applyAnalyseAll)
@@ -836,6 +854,99 @@ function initRepartition() {
       repartitionMetric = btn.dataset.metric
       if (currentTab === 'repartition') { applyRepartitionColors(); renderRepartition() }
     })
+  })
+}
+
+// ─── Onglet Potentiel abstention ─────────────────────────────────────────────
+function getPotentielVal(code, libelle) {
+  if (!libelle) return 0
+  const r = resultats[code]
+  if (!r) return 0
+  const cand = r.candidats.find(c => c.libelle === libelle)
+  const pct = cand?.pctExprimes ?? 0
+  return (r.abstentions ?? 0) * (pct / 100)
+}
+
+function getPotentielData(libelle) {
+  const vals = allFeatures.map(f => getPotentielVal(f.properties.codeBureauVote, libelle))
+  return { max: Math.max(...vals) }
+}
+
+function applyPotentielColors() {
+  const libelle = potentielListeSelect?.value
+  if (!libelle) return
+  const color = getListColor(libelle)
+  const { max } = getPotentielData(libelle)
+  allFeatures.forEach(f => {
+    const code = f.properties.codeBureauVote
+    const val  = getPotentielVal(code, libelle)
+    const t    = max > 0 ? val / max : 0
+    layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+  })
+  const fmt = v => `${v.toFixed(1)} voix`
+  document.getElementById('legend-wrap-potentiel').innerHTML = `
+    <div class="legend-label-row"><span>0</span><span>${fmt(max)}</span></div>
+    <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(color, 0.1)},${hexToRgba(color, 0.9)})"></div>
+    <div class="legend-caption">Potentiel de « ${libelle.length > 30 ? libelle.slice(0,30)+'…' : libelle} »</div>
+  `
+}
+
+function applyPotentielStyle(code) {
+  const libelle = potentielListeSelect?.value
+  if (!libelle) return
+  const color = getListColor(libelle)
+  const { max } = getPotentielData(libelle)
+  const val = getPotentielVal(code, libelle)
+  const t   = max > 0 ? val / max : 0
+  layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
+}
+
+function renderPotentiel() {
+  const bureauListPotentiel = document.getElementById('bureau-list-potentiel')
+  const libelle = potentielListeSelect?.value
+  if (!libelle) return
+  const color = getListColor(libelle)
+  const { max } = getPotentielData(libelle)
+
+  const sorted = allFeatures.map(f => {
+    const code = f.properties.codeBureauVote
+    const r    = resultats[code]
+    const cand = r?.candidats.find(c => c.libelle === libelle)
+    const pct  = cand?.pctExprimes ?? 0
+    const abs  = r?.abstentions ?? 0
+    const potentiel = abs * (pct / 100)
+    return { code, potentiel, abs, pct }
+  }).sort((a, b) => b.potentiel - a.potentiel)
+
+  bureauListPotentiel.innerHTML = sorted.map(({ code, potentiel, abs, pct }) => `
+    <li class="bureau-item analyse-item">
+      <div class="bureau-label" style="flex:1">
+        <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
+        <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
+        <div class="bureau-circ" style="font-size:10px;color:var(--text-muted)">${abs} abs. × ${pct.toFixed(1)}%</div>
+        <div class="analyse-bar-wrap">
+          <div class="analyse-bar" style="width:${max > 0 ? Math.round(potentiel / max * 100) : 0}%;background:${color}"></div>
+        </div>
+      </div>
+      <div class="analyse-score" style="text-align:right">
+        <div>${potentiel.toFixed(1)}</div>
+        <div style="font-size:10px;font-weight:400;color:var(--text-muted)">voix potentielles</div>
+      </div>
+    </li>
+  `).join('')
+}
+
+function initPotentiel() {
+  const totaux = {}
+  Object.values(resultats).forEach(b => {
+    b.candidats.forEach(c => { totaux[c.libelle] = (totaux[c.libelle] ?? 0) + (c.voix ?? 0) })
+  })
+  const listes = Object.entries(totaux).sort((a, b) => b[1] - a[1])
+  potentielListeSelect.innerHTML = listes.map(([lib]) => `<option value="${lib}">${lib}</option>`).join('')
+  if ([...potentielListeSelect.options].some(o => o.value === 'ÊTRE BONDY')) potentielListeSelect.value = 'ÊTRE BONDY'
+
+  potentielListeSelect.addEventListener('change', () => {
+    if (currentTab === 'potentiel') { applyPotentielColors(); renderPotentiel() }
   })
 }
 

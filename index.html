@@ -31,6 +31,7 @@
     <button class="tab" data-tab="analyse">Scores par liste</button>
     <button class="tab" data-tab="abstention">Abstentionnisme</button>
     <button class="tab" data-tab="repartition">Cumul de listes</button>
+    <button class="tab" data-tab="potentiel">Voix potentielles</button>
   </nav>
 
   <div class="main-layout">
@@ -118,6 +119,22 @@
         </div>
         <div class="legend-wrap" id="legend-wrap-rep"></div>
         <ul class="bureau-list" id="bureau-list-repartition"></ul>
+      </div>
+
+      <!-- Contenu onglet "Potentiel abstention" -->
+      <div class="tab-content hidden" id="tab-potentiel">
+        <div class="sidebar-header">
+          <h2>Voix potentielles</h2>
+        </div>
+        <div class="sidebar-intro" style="padding:0 12px 8px;font-size:11px;color:var(--text-muted);line-height:1.5">
+          Voix potentielles si les abstentionnistes avaient voté, selon le score actuel de chaque liste.
+        </div>
+        <div class="analyse-select-wrap">
+          <label for="potentiel-liste-select">Liste</label>
+          <select id="potentiel-liste-select"></select>
+        </div>
+        <div class="legend-wrap" id="legend-wrap-potentiel"></div>
+        <ul class="bureau-list" id="bureau-list-potentiel"></ul>
       </div>
 
       <div class="sidebar-footer">
