@@ -9,7 +9,7 @@
   <title>Élections municipales Bondy 2026 — Bureaux de vote</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
@@ -18,10 +18,10 @@
   <header>
     <div class="header-left">
       <h1>Bondy — Élections municipales 2026</h1>
-      <span class="subtitle">1er tour · Bureaux de vote</span>
-    </div>
-    <div class="header-right">
-      <span class="badge">93 · Seine-Saint-Denis</span>
+      <div class="tour-toggle" id="tour-toggle">
+        <button class="tour-btn active" data-tour="t1">1er tour</button>
+        <button class="tour-btn" data-tour="t2">2nd tour</button>
+      </div>
     </div>
   </header>
 
@@ -32,6 +32,7 @@
     <button class="tab" data-tab="abstention">Abstentionnisme</button>
     <button class="tab" data-tab="potentiel">Voix potentielles</button>
     <button class="tab" data-tab="repartition">Cumul de listes</button>
+    <button class="tab" data-tab="evolution">Évolution T1→T2</button>
   </nav>
 
   <div class="main-layout">
@@ -137,6 +138,39 @@
         <ul class="bureau-list" id="bureau-list-potentiel"></ul>
       </div>
 
+      <!-- Onglet Évolution T1→T2 avec sous-onglets -->
+      <div class="tab-content hidden" id="tab-evolution">
+        <div class="sidebar-header">
+          <h2>Évolution T1 → T2</h2>
+        </div>
+        <div class="evo-subnav">
+          <button class="evo-tab active" data-evo="carte">Carte</button>
+          <button class="evo-tab" data-evo="scores">Scores par liste</button>
+          <button class="evo-tab" data-evo="abstention">Participation</button>
+        </div>
+
+        <!-- Sous-onglet : Carte -->
+        <div class="evo-content" id="evo-carte">
+          <ul class="bureau-list" id="bureau-list-evo-carte"></ul>
+        </div>
+
+        <!-- Sous-onglet : Scores par liste -->
+        <div class="evo-content hidden" id="evo-scores">
+          <div class="analyse-select-wrap">
+            <label for="evo-liste-select">Liste</label>
+            <select id="evo-liste-select"></select>
+          </div>
+          <div class="legend-wrap" id="legend-wrap-evo-scores"></div>
+          <ul class="bureau-list" id="bureau-list-evo-scores"></ul>
+        </div>
+
+        <!-- Sous-onglet : Abstention -->
+        <div class="evo-content hidden" id="evo-abstention">
+          <div class="legend-wrap" id="legend-wrap-evo-abst"></div>
+          <ul class="bureau-list" id="bureau-list-evo-abst"></ul>
+        </div>
+      </div>
+
       <div class="sidebar-footer">
         <p>Source : <a href="https://www.data.gouv.fr/fr/datasets/proposition-de-contours-des-bureaux-de-vote-selon-la-methode-de-linsee/" target="_blank">data.gouv.fr</a> · Etalab</p>
         <p>Fond de carte : <a href="https://geoplateforme.fr" target="_blank">IGN Géoplateforme</a></p>
@@ -161,7 +195,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=7"></script>
 
 </body>
 </html>
