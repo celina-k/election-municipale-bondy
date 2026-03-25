@@ -286,6 +286,17 @@ Promise.all([
 })
 .catch(err => console.error('Erreur chargement données :', err))
 
+// ─── Indicateurs de scroll horizontal des onglets (mobile) ───────────────────
+document.querySelectorAll('.tabs').forEach(tabs => {
+  function update() {
+    tabs.classList.toggle('can-scroll-left', tabs.scrollLeft > 0)
+    tabs.classList.toggle('at-scroll-end', tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 1)
+  }
+  tabs.addEventListener('scroll', update)
+  window.addEventListener('resize', update)
+  update()
+})
+
 // ─── Onglets ─────────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab:not(.evo-tab)').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -365,12 +376,14 @@ const listFab = document.getElementById('list-fab')
 function isMobile() { return window.innerWidth <= 768 }
 
 function openSidebar() {
+  map.closePopup()
   sidebar.classList.add('open')
   listFab.textContent = '✕ Fermer'
   setTimeout(() => map.invalidateSize(), 280)
 }
 
 function closeSidebar() {
+  map.closePopup()
   sidebar.classList.remove('open')
   listFab.textContent = '☰ Liste'
   setTimeout(() => map.invalidateSize(), 280)
