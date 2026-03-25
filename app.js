@@ -34,6 +34,9 @@ const NOMS_BUREAUX = {
   '0032': 'Centre de Loisirs — Salle Coluche',
 }
 
+// ─── Détection appareil tactile (calculé une seule fois) ─────────────────────
+const isTouch = window.matchMedia('(hover: none)').matches
+
 // ─── Palette de couleurs pour les bureaux de vote ───────────────────────────
 const PALETTE = [
   '#4f7ef7','#e05c5c','#5cb85c','#f0ad4e','#9b59b6',
@@ -137,6 +140,39 @@ const legendWrap        = document.getElementById('legend-wrap')
 const bureauListAnalyse = document.getElementById('bureau-list-analyse')
 let   analyseMode       = 'simple'  // 'simple' | 'ecart'
 
+// ─── Contenu tooltip/popup partagé PC et mobile ──────────────────────────────
+function getTooltipInner(code) {
+  const num = `<strong>Bureau n° ${parseInt(code)}</strong>`
+  if (currentTab === 'bureaux') {
+    const r = resultats[code]
+    const taux = r ? `${r.tauxParticipation}% participation` : ''
+    return `${num}${taux ? '<br>' + taux : ''}`
+  } else if (currentTab === 'abstention') {
+    const r = resultats[code]
+    const abstentions = r?.abstentions ?? 0
+    const pct = r && r.inscrits > 0 ? (r.abstentions / r.inscrits * 100).toFixed(1) : 'N/D'
+    return `${num}<br>${abstentions} abs. · ${pct}%`
+  } else if (currentTab === 'repartition') {
+    const val = getRepartitionVal(code)
+    const label = repartitionMetric === 'voix' ? `${val} voix` : `${val.toFixed(1)}% des inscrits`
+    const n = repartitionSelected.size
+    const nom = n === 0 ? '–' : n === 1
+      ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
+      : `${n} listes`
+    return `${num}<br>${nom}<br>${label}`
+  } else if (currentTab === 'potentiel') {
+    const val = getPotentielVal(code, potentielListeSelect?.value)
+    return `${num}<br>${potentielListeSelect?.value ?? ''}<br>${val.toFixed(1)} voix potentielles`
+  } else if (currentTab === 'evolution') {
+    return `${num}<br>${getEvoTooltip(code)}`
+  } else if (currentTab === 'analyse') {
+    const score = getScoreAnalyse(code)
+    const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
+    return `${num}<br>${listeSelect.value}<br>${label}`
+  }
+  return ''
+}
+
 // ─── Chargement des données ──────────────────────────────────────────────────
 Promise.all([
   fetch('data/bondy-bureaux-vote.geojson').then(r => r.json()),
@@ -175,65 +211,17 @@ Promise.all([
     })
 
     layer.on('mouseover', e => {
-      if (window.matchMedia('(hover: none)').matches) return
-      if (currentTab === 'bureaux') {
-        if (code !== activeCode) e.target.setStyle({ fillOpacity: 0.7 })
-        const r = resultats[code]
-        const taux = r ? `${r.tauxParticipation}% participation` : ''
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong>${taux ? '<br>' + taux : ''}</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      } else if (currentTab === 'abstention') {
-        const r = resultats[code]
-        const abstentions = r?.abstentions ?? 0
-        const pct = r && r.inscrits > 0 ? (r.abstentions / r.inscrits * 100).toFixed(1) : 'N/D'
-        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${abstentions} abstentions · ${pct}%</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      } else if (currentTab === 'repartition') {
-        const val = getRepartitionVal(code)
-        const label = repartitionMetric === 'voix'
-          ? `${val} voix`
-          : `${val.toFixed(1)}% des inscrits`
-        const n   = repartitionSelected.size
-        const nom = n === 0 ? '–' : n === 1
-          ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
-          : `${n} listes`
-        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${nom}<br>${label}</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      } else if (currentTab === 'potentiel') {
-        const val = getPotentielVal(code, potentielListeSelect?.value)
-        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${potentielListeSelect?.value ?? ''}<br>${val.toFixed(1)} voix potentielles</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      } else if (currentTab === 'evolution') {
-        const tooltip = getEvoTooltip(code)
-        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${tooltip}</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      } else {
-        const score = getScoreAnalyse(code)
-        const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
-        e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
-        e.target.bindTooltip(
-          `<div class="bureau-tooltip"><strong>Bureau n° ${parseInt(code)}</strong><br>${listeSelect.value}<br>${label}</div>`,
-          { sticky: true, className: '' }
-        ).openTooltip()
-      }
+      if (isTouch) return
+      if (currentTab === 'bureaux' && code !== activeCode) e.target.setStyle({ fillOpacity: 0.7 })
+      else if (currentTab !== 'bureaux') e.target.setStyle({ fillOpacity: Math.min((e.target.options.fillOpacity || 0.5) + 0.15, 0.95) })
+      e.target.bindTooltip(
+        `<div class="bureau-tooltip">${getTooltipInner(code)}</div>`,
+        { sticky: true, className: '' }
+      ).openTooltip()
     })
 
     layer.on('mouseout', e => {
-      if (window.matchMedia('(hover: none)').matches) return
+      if (isTouch) return
       if (currentTab === 'bureaux' && code !== activeCode) {
         e.target.setStyle({ fillOpacity: 0.45 })
       } else if (currentTab === 'analyse') {
@@ -254,34 +242,15 @@ Promise.all([
       if (currentTab === 'bureaux') selectBureau(code)
       else if (currentTab === 'evolution' && currentEvoTab === 'carte') selectEvoBureau(code)
       else if (currentTab === 'evolution' && currentEvoTab === 'scores') selectEvoScoreBureau(code)
+      else if (isTouch && currentTab === 'evolution' && currentEvoTab === 'abstention') selectTabBureau(code, applyEvoAbstStyle)
+      else if (isTouch && currentTab === 'abstention') selectTabBureau(code, applyAbstentionStyle)
+      else if (isTouch && currentTab === 'repartition') selectTabBureau(code, applyRepartitionStyle)
+      else if (isTouch && currentTab === 'potentiel') selectTabBureau(code, applyPotentielStyle)
+      else if (isTouch && currentTab === 'analyse') selectTabBureau(code, applyAnalyseStyle)
 
       // Sur mobile (pas de hover), afficher un popup avec les KPIs au clic
-      if (window.matchMedia('(hover: none)').matches) {
-        let inner = ''
-        if (currentTab === 'abstention') {
-          const r = resultats[code]
-          const abstentions = r?.abstentions ?? 0
-          const pct = r && r.inscrits > 0 ? (r.abstentions / r.inscrits * 100).toFixed(1) : 'N/D'
-          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${abstentions} abs. · ${pct}%`
-        } else if (currentTab === 'repartition') {
-          const val = getRepartitionVal(code)
-          const label = repartitionMetric === 'voix' ? `${val} voix` : `${val.toFixed(1)}% des inscrits`
-          const n = repartitionSelected.size
-          const nom = n === 0 ? '–' : n === 1
-            ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
-            : `${n} listes`
-          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${nom}<br>${label}`
-        } else if (currentTab === 'potentiel') {
-          const val = getPotentielVal(code, potentielListeSelect?.value)
-          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${potentielListeSelect?.value ?? ''}<br>${val.toFixed(1)} voix potentielles`
-        } else if (currentTab === 'evolution') {
-          const tooltip = getEvoTooltip(code)
-          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${tooltip}`
-        } else if (currentTab === 'analyse') {
-          const score = getScoreAnalyse(code)
-          const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
-          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${listeSelect.value}<br>${label}`
-        }
+      if (isTouch && currentTab !== 'bureaux') {
+        const inner = getTooltipInner(code)
         if (inner) {
           L.popup({ closeButton: true, className: 'bureau-popup-mobile' })
             .setLatLng(e.latlng)
@@ -323,6 +292,7 @@ document.querySelectorAll('.tab:not(.evo-tab)').forEach(btn => {
     document.querySelectorAll('.tab:not(.evo-tab)').forEach(t => t.classList.remove('active'))
     btn.classList.add('active')
     currentTab = btn.dataset.tab
+    map.closePopup()
 
     document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
     document.getElementById(`tab-${currentTab}`).classList.remove('hidden')
@@ -1049,6 +1019,7 @@ document.querySelectorAll('.tour-btn').forEach(btn => {
 })
 
 function setTour(tour) {
+  map.closePopup()
   const normalTabsNav = document.getElementById('normal-tabs')
   const evoTabsNav    = document.getElementById('evo-tabs')
 
@@ -1167,6 +1138,7 @@ function initEvolution() {
       document.querySelectorAll('.evo-tab').forEach(b => b.classList.remove('active'))
       btn.classList.add('active')
       currentEvoTab = btn.dataset.evo
+      map.closePopup()
       document.querySelectorAll('.evo-content').forEach(c => c.classList.add('hidden'))
       document.getElementById(`evo-${currentEvoTab}`).classList.remove('hidden')
       if (activeCode) { activeCode = null; hideInfoPanel() }
@@ -1272,6 +1244,7 @@ function selectEvoBureau(code) {
 }
 
 function selectTabBureau(code, restoreStyle) {
+  map.closePopup()
   if (activeCode && layers[activeCode]) restoreStyle(activeCode)
   if (activeCode === code) { activeCode = null; return }
   activeCode = code
@@ -1396,10 +1369,14 @@ function getEvoTooltip(code) {
     const sign  = delta !== null && delta > 0 ? '+' : ''
     return `${evoListeSelect?.value ?? ''}<br>${delta !== null ? sign + (evoMetric === 'voix' ? Math.round(delta) + ' voix' : delta.toFixed(1) + ' pts') : 'N/D'}`
   } else if (currentEvoTab === 'abstention') {
-    const delta = getAbstDelta(code)
     const r1 = resultatsT1[code], r2 = resultatsT2[code]
-    const sign = delta !== null && delta > 0 ? '+' : ''
-    return `Participation T1 : ${r1?.tauxParticipation ?? '–'}% → T2 : ${r2?.tauxParticipation ?? '–'}%<br><strong>${delta !== null ? sign + delta.toFixed(1) + ' pts' : 'N/D'}</strong>`
+    const val = getAbstVal(code)
+    const sign = val !== null && val > 0 ? '+' : ''
+    if (evoAbstMetric === 'voix') {
+      return `Votants T1 : ${r1?.votants ?? '–'} → T2 : ${r2?.votants ?? '–'}<br><strong>${val !== null ? sign + Math.round(val) + ' votants' : 'N/D'}</strong>`
+    }
+    const delta = getAbstDelta(code)
+    return `Participation T1 : ${r1?.tauxParticipation ?? '–'}% → T2 : ${r2?.tauxParticipation ?? '–'}%<br><strong>${delta !== null ? (delta > 0 ? '+' : '') + delta.toFixed(1) + ' pts' : 'N/D'}</strong>`
   }
   const r1 = resultatsT1[code], r2 = resultatsT2[code]
   return `T1 : ${r1?.tauxParticipation ?? '–'}% · T2 : ${r2?.tauxParticipation ?? '–'}%`
