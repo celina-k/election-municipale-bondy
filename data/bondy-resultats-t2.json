@@ -1,0 +1,910 @@
+{
+  "commune": "Bondy",
+  "codeCommune": "93010",
+  "election": "Élections municipales 2026 — 2e tour (29 mars 2026)",
+  "source": {
+    "url": "https://static.data.gouv.fr/resources/elections-municipales-2026-resultats-du-scond-tour/20260323-180132/municipales-2026-resultats-bureau-de-vote-2026-03-23-16h15.csv",
+    "taille": "~X MB",
+    "producteur": "Ministère de l'Intérieur via data.gouv.fr",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "dataset": "https://www.data.gouv.fr/fr/datasets/elections-municipales-2026-resultats-du-second-tour/"
+  },
+  "bureaux": [
+    {
+      "codeBureauVote": "0001",
+      "inscrits": 795,
+      "abstentions": 411,
+      "votants": 384,
+      "blancs": 9,
+      "nuls": 4,
+      "exprimes": 371,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 216,
+          "pctExprimes": 58.22,
+          "pctInscrits": 27.17
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 155,
+          "pctExprimes": 41.78,
+          "pctInscrits": 19.5
+        }
+      ],
+      "tauxParticipation": 48.3,
+      "tauxAbstention": 51.7,
+      "tauxBlancsNuls": 3.39
+    },
+    {
+      "codeBureauVote": "0002",
+      "inscrits": 807,
+      "abstentions": 334,
+      "votants": 473,
+      "blancs": 8,
+      "nuls": 6,
+      "exprimes": 459,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 286,
+          "pctExprimes": 62.31,
+          "pctInscrits": 35.44
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 173,
+          "pctExprimes": 37.69,
+          "pctInscrits": 21.44
+        }
+      ],
+      "tauxParticipation": 58.61,
+      "tauxAbstention": 41.39,
+      "tauxBlancsNuls": 2.96
+    },
+    {
+      "codeBureauVote": "0003",
+      "inscrits": 1073,
+      "abstentions": 576,
+      "votants": 497,
+      "blancs": 6,
+      "nuls": 1,
+      "exprimes": 490,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 208,
+          "pctExprimes": 42.45,
+          "pctInscrits": 19.38
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 282,
+          "pctExprimes": 57.55,
+          "pctInscrits": 26.28
+        }
+      ],
+      "tauxParticipation": 46.32,
+      "tauxAbstention": 53.68,
+      "tauxBlancsNuls": 1.41
+    },
+    {
+      "codeBureauVote": "0004",
+      "inscrits": 1014,
+      "abstentions": 598,
+      "votants": 416,
+      "blancs": 2,
+      "nuls": 7,
+      "exprimes": 407,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 188,
+          "pctExprimes": 46.19,
+          "pctInscrits": 18.54
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 219,
+          "pctExprimes": 53.81,
+          "pctInscrits": 21.6
+        }
+      ],
+      "tauxParticipation": 41.03,
+      "tauxAbstention": 58.97,
+      "tauxBlancsNuls": 2.16
+    },
+    {
+      "codeBureauVote": "0005",
+      "inscrits": 855,
+      "abstentions": 487,
+      "votants": 368,
+      "blancs": 4,
+      "nuls": 2,
+      "exprimes": 362,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 109,
+          "pctExprimes": 30.11,
+          "pctInscrits": 12.75
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 253,
+          "pctExprimes": 69.89,
+          "pctInscrits": 29.59
+        }
+      ],
+      "tauxParticipation": 43.04,
+      "tauxAbstention": 56.96,
+      "tauxBlancsNuls": 1.63
+    },
+    {
+      "codeBureauVote": "0006",
+      "inscrits": 946,
+      "abstentions": 497,
+      "votants": 449,
+      "blancs": 6,
+      "nuls": 2,
+      "exprimes": 441,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 195,
+          "pctExprimes": 44.22,
+          "pctInscrits": 20.61
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 246,
+          "pctExprimes": 55.78,
+          "pctInscrits": 26.0
+        }
+      ],
+      "tauxParticipation": 47.46,
+      "tauxAbstention": 52.54,
+      "tauxBlancsNuls": 1.78
+    },
+    {
+      "codeBureauVote": "0007",
+      "inscrits": 897,
+      "abstentions": 528,
+      "votants": 369,
+      "blancs": 9,
+      "nuls": 2,
+      "exprimes": 358,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 159,
+          "pctExprimes": 44.41,
+          "pctInscrits": 17.73
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 199,
+          "pctExprimes": 55.59,
+          "pctInscrits": 22.19
+        }
+      ],
+      "tauxParticipation": 41.14,
+      "tauxAbstention": 58.86,
+      "tauxBlancsNuls": 2.98
+    },
+    {
+      "codeBureauVote": "0008",
+      "inscrits": 945,
+      "abstentions": 511,
+      "votants": 434,
+      "blancs": 10,
+      "nuls": 10,
+      "exprimes": 414,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 203,
+          "pctExprimes": 49.03,
+          "pctInscrits": 21.48
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 211,
+          "pctExprimes": 50.97,
+          "pctInscrits": 22.33
+        }
+      ],
+      "tauxParticipation": 45.93,
+      "tauxAbstention": 54.07,
+      "tauxBlancsNuls": 4.61
+    },
+    {
+      "codeBureauVote": "0009",
+      "inscrits": 850,
+      "abstentions": 474,
+      "votants": 376,
+      "blancs": 11,
+      "nuls": 2,
+      "exprimes": 363,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 164,
+          "pctExprimes": 45.18,
+          "pctInscrits": 19.29
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 199,
+          "pctExprimes": 54.82,
+          "pctInscrits": 23.41
+        }
+      ],
+      "tauxParticipation": 44.24,
+      "tauxAbstention": 55.76,
+      "tauxBlancsNuls": 3.46
+    },
+    {
+      "codeBureauVote": "0010",
+      "inscrits": 828,
+      "abstentions": 455,
+      "votants": 373,
+      "blancs": 7,
+      "nuls": 8,
+      "exprimes": 358,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 151,
+          "pctExprimes": 42.18,
+          "pctInscrits": 18.24
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 207,
+          "pctExprimes": 57.82,
+          "pctInscrits": 25.0
+        }
+      ],
+      "tauxParticipation": 45.05,
+      "tauxAbstention": 54.95,
+      "tauxBlancsNuls": 4.02
+    },
+    {
+      "codeBureauVote": "0011",
+      "inscrits": 725,
+      "abstentions": 372,
+      "votants": 353,
+      "blancs": 5,
+      "nuls": 8,
+      "exprimes": 340,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 183,
+          "pctExprimes": 53.82,
+          "pctInscrits": 25.24
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 157,
+          "pctExprimes": 46.18,
+          "pctInscrits": 21.66
+        }
+      ],
+      "tauxParticipation": 48.69,
+      "tauxAbstention": 51.31,
+      "tauxBlancsNuls": 3.68
+    },
+    {
+      "codeBureauVote": "0012",
+      "inscrits": 673,
+      "abstentions": 354,
+      "votants": 319,
+      "blancs": 11,
+      "nuls": 3,
+      "exprimes": 305,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 158,
+          "pctExprimes": 51.8,
+          "pctInscrits": 23.48
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 147,
+          "pctExprimes": 48.2,
+          "pctInscrits": 21.84
+        }
+      ],
+      "tauxParticipation": 47.4,
+      "tauxAbstention": 52.6,
+      "tauxBlancsNuls": 4.39
+    },
+    {
+      "codeBureauVote": "0013",
+      "inscrits": 589,
+      "abstentions": 288,
+      "votants": 301,
+      "blancs": 4,
+      "nuls": 3,
+      "exprimes": 294,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 180,
+          "pctExprimes": 61.22,
+          "pctInscrits": 30.56
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 114,
+          "pctExprimes": 38.78,
+          "pctInscrits": 19.35
+        }
+      ],
+      "tauxParticipation": 51.1,
+      "tauxAbstention": 48.9,
+      "tauxBlancsNuls": 2.33
+    },
+    {
+      "codeBureauVote": "0014",
+      "inscrits": 767,
+      "abstentions": 468,
+      "votants": 299,
+      "blancs": 6,
+      "nuls": 4,
+      "exprimes": 289,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 143,
+          "pctExprimes": 49.48,
+          "pctInscrits": 18.64
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 146,
+          "pctExprimes": 50.52,
+          "pctInscrits": 19.04
+        }
+      ],
+      "tauxParticipation": 38.98,
+      "tauxAbstention": 61.02,
+      "tauxBlancsNuls": 3.34
+    },
+    {
+      "codeBureauVote": "0015",
+      "inscrits": 1018,
+      "abstentions": 504,
+      "votants": 514,
+      "blancs": 10,
+      "nuls": 1,
+      "exprimes": 503,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 341,
+          "pctExprimes": 67.79,
+          "pctInscrits": 33.5
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 162,
+          "pctExprimes": 32.21,
+          "pctInscrits": 15.91
+        }
+      ],
+      "tauxParticipation": 50.49,
+      "tauxAbstention": 49.51,
+      "tauxBlancsNuls": 2.14
+    },
+    {
+      "codeBureauVote": "0016",
+      "inscrits": 883,
+      "abstentions": 384,
+      "votants": 499,
+      "blancs": 9,
+      "nuls": 5,
+      "exprimes": 485,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 262,
+          "pctExprimes": 54.02,
+          "pctInscrits": 29.67
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 223,
+          "pctExprimes": 45.98,
+          "pctInscrits": 25.25
+        }
+      ],
+      "tauxParticipation": 56.51,
+      "tauxAbstention": 43.49,
+      "tauxBlancsNuls": 2.81
+    },
+    {
+      "codeBureauVote": "0017",
+      "inscrits": 918,
+      "abstentions": 468,
+      "votants": 450,
+      "blancs": 3,
+      "nuls": 6,
+      "exprimes": 441,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 219,
+          "pctExprimes": 49.66,
+          "pctInscrits": 23.86
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 222,
+          "pctExprimes": 50.34,
+          "pctInscrits": 24.18
+        }
+      ],
+      "tauxParticipation": 49.02,
+      "tauxAbstention": 50.98,
+      "tauxBlancsNuls": 2.0
+    },
+    {
+      "codeBureauVote": "0018",
+      "inscrits": 765,
+      "abstentions": 414,
+      "votants": 351,
+      "blancs": 9,
+      "nuls": 0,
+      "exprimes": 342,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 189,
+          "pctExprimes": 55.26,
+          "pctInscrits": 24.71
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 153,
+          "pctExprimes": 44.74,
+          "pctInscrits": 20.0
+        }
+      ],
+      "tauxParticipation": 45.88,
+      "tauxAbstention": 54.12,
+      "tauxBlancsNuls": 2.56
+    },
+    {
+      "codeBureauVote": "0019",
+      "inscrits": 661,
+      "abstentions": 300,
+      "votants": 361,
+      "blancs": 10,
+      "nuls": 3,
+      "exprimes": 348,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 213,
+          "pctExprimes": 61.21,
+          "pctInscrits": 32.22
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 135,
+          "pctExprimes": 38.79,
+          "pctInscrits": 20.42
+        }
+      ],
+      "tauxParticipation": 54.61,
+      "tauxAbstention": 45.39,
+      "tauxBlancsNuls": 3.6
+    },
+    {
+      "codeBureauVote": "0020",
+      "inscrits": 835,
+      "abstentions": 488,
+      "votants": 347,
+      "blancs": 12,
+      "nuls": 5,
+      "exprimes": 330,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 134,
+          "pctExprimes": 40.61,
+          "pctInscrits": 16.05
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 196,
+          "pctExprimes": 59.39,
+          "pctInscrits": 23.47
+        }
+      ],
+      "tauxParticipation": 41.56,
+      "tauxAbstention": 58.44,
+      "tauxBlancsNuls": 4.9
+    },
+    {
+      "codeBureauVote": "0021",
+      "inscrits": 911,
+      "abstentions": 530,
+      "votants": 381,
+      "blancs": 6,
+      "nuls": 4,
+      "exprimes": 371,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 140,
+          "pctExprimes": 37.74,
+          "pctInscrits": 15.37
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 231,
+          "pctExprimes": 62.26,
+          "pctInscrits": 25.36
+        }
+      ],
+      "tauxParticipation": 41.82,
+      "tauxAbstention": 58.18,
+      "tauxBlancsNuls": 2.62
+    },
+    {
+      "codeBureauVote": "0022",
+      "inscrits": 651,
+      "abstentions": 384,
+      "votants": 267,
+      "blancs": 3,
+      "nuls": 1,
+      "exprimes": 263,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 118,
+          "pctExprimes": 44.87,
+          "pctInscrits": 18.13
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 145,
+          "pctExprimes": 55.13,
+          "pctInscrits": 22.27
+        }
+      ],
+      "tauxParticipation": 41.01,
+      "tauxAbstention": 58.99,
+      "tauxBlancsNuls": 1.5
+    },
+    {
+      "codeBureauVote": "0023",
+      "inscrits": 791,
+      "abstentions": 414,
+      "votants": 377,
+      "blancs": 9,
+      "nuls": 12,
+      "exprimes": 356,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 215,
+          "pctExprimes": 60.39,
+          "pctInscrits": 27.18
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 141,
+          "pctExprimes": 39.61,
+          "pctInscrits": 17.83
+        }
+      ],
+      "tauxParticipation": 47.66,
+      "tauxAbstention": 52.34,
+      "tauxBlancsNuls": 5.57
+    },
+    {
+      "codeBureauVote": "0024",
+      "inscrits": 881,
+      "abstentions": 506,
+      "votants": 375,
+      "blancs": 3,
+      "nuls": 4,
+      "exprimes": 368,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 118,
+          "pctExprimes": 32.07,
+          "pctInscrits": 13.39
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 250,
+          "pctExprimes": 67.93,
+          "pctInscrits": 28.38
+        }
+      ],
+      "tauxParticipation": 42.57,
+      "tauxAbstention": 57.43,
+      "tauxBlancsNuls": 1.87
+    },
+    {
+      "codeBureauVote": "0025",
+      "inscrits": 953,
+      "abstentions": 573,
+      "votants": 380,
+      "blancs": 5,
+      "nuls": 6,
+      "exprimes": 369,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 155,
+          "pctExprimes": 42.01,
+          "pctInscrits": 16.26
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 214,
+          "pctExprimes": 57.99,
+          "pctInscrits": 22.46
+        }
+      ],
+      "tauxParticipation": 39.87,
+      "tauxAbstention": 60.13,
+      "tauxBlancsNuls": 2.89
+    },
+    {
+      "codeBureauVote": "0026",
+      "inscrits": 995,
+      "abstentions": 583,
+      "votants": 412,
+      "blancs": 10,
+      "nuls": 4,
+      "exprimes": 398,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 141,
+          "pctExprimes": 35.43,
+          "pctInscrits": 14.17
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 257,
+          "pctExprimes": 64.57,
+          "pctInscrits": 25.83
+        }
+      ],
+      "tauxParticipation": 41.41,
+      "tauxAbstention": 58.59,
+      "tauxBlancsNuls": 3.4
+    },
+    {
+      "codeBureauVote": "0027",
+      "inscrits": 978,
+      "abstentions": 516,
+      "votants": 462,
+      "blancs": 20,
+      "nuls": 6,
+      "exprimes": 436,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 270,
+          "pctExprimes": 61.93,
+          "pctInscrits": 27.61
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 166,
+          "pctExprimes": 38.07,
+          "pctInscrits": 16.97
+        }
+      ],
+      "tauxParticipation": 47.24,
+      "tauxAbstention": 52.76,
+      "tauxBlancsNuls": 5.63
+    },
+    {
+      "codeBureauVote": "0028",
+      "inscrits": 841,
+      "abstentions": 431,
+      "votants": 410,
+      "blancs": 8,
+      "nuls": 3,
+      "exprimes": 399,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 220,
+          "pctExprimes": 55.14,
+          "pctInscrits": 26.16
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 179,
+          "pctExprimes": 44.86,
+          "pctInscrits": 21.28
+        }
+      ],
+      "tauxParticipation": 48.75,
+      "tauxAbstention": 51.25,
+      "tauxBlancsNuls": 2.68
+    },
+    {
+      "codeBureauVote": "0029",
+      "inscrits": 618,
+      "abstentions": 325,
+      "votants": 293,
+      "blancs": 7,
+      "nuls": 4,
+      "exprimes": 282,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 176,
+          "pctExprimes": 62.41,
+          "pctInscrits": 28.48
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 106,
+          "pctExprimes": 37.59,
+          "pctInscrits": 17.15
+        }
+      ],
+      "tauxParticipation": 47.41,
+      "tauxAbstention": 52.59,
+      "tauxBlancsNuls": 3.75
+    },
+    {
+      "codeBureauVote": "0030",
+      "inscrits": 534,
+      "abstentions": 201,
+      "votants": 333,
+      "blancs": 8,
+      "nuls": 4,
+      "exprimes": 321,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 222,
+          "pctExprimes": 69.16,
+          "pctInscrits": 41.57
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 99,
+          "pctExprimes": 30.84,
+          "pctInscrits": 18.54
+        }
+      ],
+      "tauxParticipation": 62.36,
+      "tauxAbstention": 37.64,
+      "tauxBlancsNuls": 3.6
+    },
+    {
+      "codeBureauVote": "0031",
+      "inscrits": 904,
+      "abstentions": 478,
+      "votants": 426,
+      "blancs": 7,
+      "nuls": 11,
+      "exprimes": 408,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 226,
+          "pctExprimes": 55.39,
+          "pctInscrits": 25.0
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 182,
+          "pctExprimes": 44.61,
+          "pctInscrits": 20.13
+        }
+      ],
+      "tauxParticipation": 47.12,
+      "tauxAbstention": 52.88,
+      "tauxBlancsNuls": 4.23
+    },
+    {
+      "codeBureauVote": "0032",
+      "inscrits": 883,
+      "abstentions": 440,
+      "votants": 443,
+      "blancs": 9,
+      "nuls": 5,
+      "exprimes": 429,
+      "candidats": [
+        {
+          "numero": null,
+          "libelle": "Avec Stephen Hervé, continuons ensemble pour l'avenir de Bondy",
+          "voix": 221,
+          "pctExprimes": 51.52,
+          "pctInscrits": 25.03
+        },
+        {
+          "numero": null,
+          "libelle": "ÊTRE BONDY",
+          "voix": 208,
+          "pctExprimes": 48.48,
+          "pctInscrits": 23.56
+        }
+      ],
+      "tauxParticipation": 50.17,
+      "tauxAbstention": 49.83,
+      "tauxBlancsNuls": 3.16
+    }
+  ]
+}
