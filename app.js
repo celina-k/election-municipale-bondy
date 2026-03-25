@@ -246,7 +246,7 @@ Promise.all([
       else if (isTouch && currentTab === 'abstention') selectTabBureau(code, applyAbstentionStyle)
       else if (isTouch && currentTab === 'repartition') selectTabBureau(code, applyRepartitionStyle)
       else if (isTouch && currentTab === 'potentiel') selectTabBureau(code, applyPotentielStyle)
-      else if (isTouch && currentTab === 'analyse') selectTabBureau(code, applyAnalyseStyle)
+      else if (currentTab === 'analyse') selectTabBureau(code, applyAnalyseStyle)
 
       // Sur mobile (pas de hover), afficher un popup avec les KPIs au clic
       if (isTouch && currentTab !== 'bureaux' && currentTab !== 'analyse') {
