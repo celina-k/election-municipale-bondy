@@ -249,7 +249,7 @@ Promise.all([
       else if (isTouch && currentTab === 'analyse') selectTabBureau(code, applyAnalyseStyle)
 
       // Sur mobile (pas de hover), afficher un popup avec les KPIs au clic
-      if (isTouch && currentTab !== 'bureaux') {
+      if (isTouch && currentTab !== 'bureaux' && currentTab !== 'analyse') {
         const inner = getTooltipInner(code)
         if (inner) {
           L.popup({ closeButton: true, className: 'bureau-popup-mobile' })
