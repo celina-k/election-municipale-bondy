@@ -9,7 +9,7 @@
   <title>Élections municipales Bondy 2026 — Bureaux de vote</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -18,20 +18,28 @@
   <header>
     <div class="header-left">
       <h1>Bondy — Élections municipales 2026</h1>
-      <span class="subtitle">1er tour · Bureaux de vote</span>
-    </div>
-    <div class="header-right">
-      <span class="badge">93 · Seine-Saint-Denis</span>
+      <div class="tour-toggle" id="tour-toggle">
+        <button class="tour-btn active" data-tour="t1">1er tour</button>
+        <button class="tour-btn" data-tour="t2">2nd tour</button>
+        <button class="tour-btn" data-tour="evo" disabled>Évolution 1er·2nd tour</button>
+      </div>
     </div>
   </header>
 
-  <!-- Onglets -->
-  <nav class="tabs">
+  <!-- Onglets T1 / T2 -->
+  <nav class="tabs" id="normal-tabs">
     <button class="tab active" data-tab="bureaux">Carte des résultats</button>
     <button class="tab" data-tab="analyse">Scores par liste</button>
     <button class="tab" data-tab="abstention">Abstentionnisme</button>
     <button class="tab" data-tab="potentiel">Voix potentielles</button>
     <button class="tab" data-tab="repartition">Cumul de listes</button>
+  </nav>
+
+  <!-- Onglets Évolution T1→T2 -->
+  <nav class="tabs hidden" id="evo-tabs">
+    <button class="tab evo-tab active" data-evo="carte">Carte des résultats</button>
+    <button class="tab evo-tab" data-evo="scores">Scores par liste</button>
+    <button class="tab evo-tab" data-evo="abstention">Participation</button>
   </nav>
 
   <div class="main-layout">
@@ -137,6 +145,46 @@
         <ul class="bureau-list" id="bureau-list-potentiel"></ul>
       </div>
 
+      <!-- Contenu Évolution T1→T2 -->
+      <div class="tab-content hidden" id="tab-evolution">
+
+        <!-- Carte -->
+        <div class="evo-content" id="evo-carte">
+          <ul class="bureau-list" id="bureau-list-evo-carte"></ul>
+        </div>
+
+        <!-- Sous-onglet : Scores par liste -->
+        <div class="evo-content hidden" id="evo-scores">
+          <div class="analyse-select-wrap">
+            <label for="evo-liste-select">Liste</label>
+            <select id="evo-liste-select"></select>
+          </div>
+          <div class="analyse-metric-wrap">
+            <label>Trier par</label>
+            <div class="metric-toggle">
+              <button class="evo-metric-btn active" data-metric="voix">Nb de voix</button>
+              <button class="evo-metric-btn" data-metric="pct">% des exprimés</button>
+            </div>
+          </div>
+          <div class="legend-wrap" id="legend-wrap-evo-scores"></div>
+          <ul class="bureau-list" id="bureau-list-evo-scores"></ul>
+        </div>
+
+        <!-- Sous-onglet : Abstention -->
+        <div class="evo-content hidden" id="evo-abstention">
+          <div class="analyse-metric-wrap">
+            <label>Trier par</label>
+            <div class="metric-toggle">
+              <button class="evo-abst-metric-btn active" data-metric="voix">Nb de votants</button>
+              <button class="evo-abst-metric-btn" data-metric="pct">% participation</button>
+            </div>
+          </div>
+          <div class="legend-wrap" id="legend-wrap-evo-abst"></div>
+          <ul class="bureau-list" id="bureau-list-evo-abst"></ul>
+        </div>
+
+      </div>
+
       <div class="sidebar-footer">
         <p>Source : <a href="https://www.data.gouv.fr/fr/datasets/proposition-de-contours-des-bureaux-de-vote-selon-la-methode-de-linsee/" target="_blank">data.gouv.fr</a> · Etalab</p>
         <p>Fond de carte : <a href="https://geoplateforme.fr" target="_blank">IGN Géoplateforme</a></p>
@@ -161,7 +209,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=9"></script>
 
 </body>
 </html>

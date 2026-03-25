@@ -28,6 +28,8 @@
 .tab:hover  { color: var(--text); }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
+.tabs.hidden { display: none !important; }
+
 /* ─── Reset & base ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -39,7 +41,7 @@
   --text-muted:#8892a4;
   --accent:    #4f7ef7;
   --accent-h:  #3a65d4;
-  --header-h:  52px;
+  --header-h:  64px;
   --sidebar-w: 280px;
 }
 
@@ -61,7 +63,7 @@ header {
 
 header h1 { font-size: 16px; font-weight: 600; }
 .subtitle  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.header-left { display: flex; flex-direction: column; }
+.header-left { display: flex; flex-direction: column; gap: 6px; }
 
 .badge {
   background: #2a3a5c;
@@ -72,6 +74,86 @@ header h1 { font-size: 16px; font-weight: 600; }
   font-size: 12px;
   font-weight: 600;
 }
+
+/* ─── Toggle 1er / 2nd tour ─────────────────────────────────── */
+.tour-toggle {
+  display: flex; gap: 3px; align-self: flex-start;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 3px; margin-top: 0;
+}
+.tour-btn {
+  background: none; border: none; border-radius: 6px;
+  color: var(--text-muted); cursor: pointer;
+  font-size: 12px; font-weight: 500; padding: 4px 10px;
+  transition: all .15s; white-space: nowrap;
+}
+.tour-btn:hover:not(:disabled):not(.active) { color: var(--text); background: var(--border); }
+.tour-btn.active { background: var(--accent); color: #fff; font-weight: 600; }
+.tour-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Sous-onglets Évolution T1→T2 ──────────────────────────── */
+.evo-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.evo-content.hidden { display: none; }
+
+/* ─── Tableau récapitulatif ──────────────────────────────────── */
+.recap-wrap { flex: 1; overflow: auto; padding: 8px; }
+.recap-table-wrap { overflow-x: auto; }
+.recap-table {
+  border-collapse: collapse;
+  font-size: 11px;
+  width: 100%;
+  white-space: nowrap;
+}
+.recap-table th {
+  background: var(--bg);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.recap-table th:first-child { text-align: left; }
+.recap-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  color: var(--text);
+  vertical-align: top;
+}
+.recap-table td:first-child { text-align: left; }
+.recap-table tbody tr:hover { background: var(--border); }
+.recap-nom { font-size: 9px; color: var(--text-muted); font-weight: 400; white-space: normal; max-width: 80px; }
+
+/* ─── Panneau comparaison T1/T2 ─────────────────────────────── */
+.info-panel.compare-mode { width: 380px; }
+.compare-header-row {
+  display: grid; grid-template-columns: 1fr 64px 64px 60px;
+  gap: 4px; font-size: 10px; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: .04em; padding: 8px 0 4px;
+  border-bottom: 1px solid var(--border); margin-bottom: 4px;
+}
+.compare-stat-row {
+  display: grid; grid-template-columns: 1fr 64px 64px 60px;
+  gap: 4px; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.compare-stat-row:last-child { border-bottom: none; }
+.compare-label  { color: var(--text-muted); font-size: 11px; }
+.compare-val    { font-size: 12px; font-weight: 600; color: var(--text); text-align: right; }
+.compare-delta  { font-size: 11px; font-weight: 700; text-align: right; }
+.compare-delta.pos { color: #00b894; }
+.compare-delta.neg { color: #e05c5c; }
+.compare-delta.neu { color: var(--text-muted); }
+.compare-liste-name { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.compare-swatch { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; flex-shrink: 0; }
+.compare-section-title { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin: 10px 0 4px; }
 
 /* ─── Layout ────────────────────────────────────────────────── */
 .main-layout {
@@ -289,7 +371,9 @@ header h1 { font-size: 16px; font-weight: 600; }
   color: var(--text-muted);
 }
 #liste-select,
-#liste-select-b {
+#liste-select-b,
+#potentiel-liste-select,
+#evo-liste-select {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -300,12 +384,16 @@ header h1 { font-size: 16px; font-weight: 600; }
   width: 100%;
 }
 #liste-select:focus,
-#liste-select-b:focus { border-color: var(--accent); }
+#liste-select-b:focus,
+#potentiel-liste-select:focus,
+#evo-liste-select:focus { border-color: var(--accent); }
 
 .metric-toggle { display: flex; gap: 4px; }
 .metric-btn,
 .abst-metric-btn,
-.rep-metric-btn {
+.rep-metric-btn,
+.evo-metric-btn,
+.evo-abst-metric-btn {
   flex: 1;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -319,7 +407,9 @@ header h1 { font-size: 16px; font-weight: 600; }
 }
 .metric-btn.active,
 .abst-metric-btn.active,
-.rep-metric-btn.active {
+.rep-metric-btn.active,
+.evo-metric-btn.active,
+.evo-abst-metric-btn.active {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
@@ -442,7 +532,38 @@ header h1 { font-size: 16px; font-weight: 600; }
   text-align: right;
 }
 
+/* ─── Popup mobile (bureaux de vote) ────────────────────────── */
+.bureau-popup-mobile .leaflet-popup-content-wrapper {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4) !important;
+  color: var(--text) !important;
+  padding: 0 !important;
+}
+.bureau-popup-mobile .leaflet-popup-content {
+  margin: 0 !important;
+}
+.bureau-popup-mobile .leaflet-popup-tip-container,
+.bureau-popup-mobile .leaflet-popup-tip {
+  display: none !important;
+}
+.bureau-popup-mobile .bureau-tooltip {
+  border: none;
+  box-shadow: none;
+  white-space: normal;
+}
+.bureau-popup-mobile .bureau-tooltip strong {
+  white-space: nowrap;
+}
+
 /* ─── Tooltip hover ─────────────────────────────────────────── */
+.leaflet-tooltip:has(.bureau-tooltip) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
 .bureau-tooltip {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -552,8 +673,23 @@ header h1 { font-size: 16px; font-weight: 600; }
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    position: relative;
   }
   .tabs::-webkit-scrollbar { display: none; }
+  #evo-tabs::after { display: none; }
+  .tabs::after {
+    content: '›';
+    position: sticky;
+    right: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-size: 18px;
+    color: var(--text-muted);
+    background: linear-gradient(to right, transparent, var(--surface) 60%);
+    pointer-events: none;
+  }
   .tab  { padding: 9px 10px; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
 
   /* Layout vertical : carte en haut, sidebar en bas */
@@ -600,14 +736,22 @@ header h1 { font-size: 16px; font-weight: 600; }
   }
   .list-fab:hover { background: var(--border); }
 
-  /* Info panel pleine largeur dans la zone carte */
+  /* Info panel fixe en bas de l'écran sur mobile */
   .info-panel {
+    position: fixed;
     width: calc(100% - 24px);
     left: 12px;
     right: 12px;
-    bottom: 12px;
-    max-height: 58%;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 3000;
   }
+  .info-panel.compare-mode { width: calc(100% - 24px); }
+  .compare-header-row,
+  .compare-stat-row { grid-template-columns: 1fr 52px 52px 58px; gap: 2px; font-size: 11px; }
+  .compare-val { font-size: 11px; }
+  .compare-liste-name { font-size: 10px; }
 
   /* Contrôles analyse : meilleur espacement tactile */
   .mode-btn   { padding: 8px 4px; font-size: 11px; }
@@ -635,7 +779,7 @@ header h1 { font-size: 16px; font-weight: 600; }
 
   .sidebar.open { height: 45vh; }
 
-  .info-panel { max-height: 55%; }
+  .info-panel { max-height: 45vh; }
 
   .stat-val { font-size: 15px; }
 }
