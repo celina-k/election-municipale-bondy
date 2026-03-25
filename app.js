@@ -115,6 +115,7 @@ let activeCode   = null
 let currentTab   = 'bureaux'
 let currentEvoTab = 'carte'     // sous-onglet actif dans Évolution T1→T2
 let evoMetric    = 'voix'       // 'voix' | 'pct' — pour Scores par liste evo
+let evoAbstMetric = 'voix'     // 'voix' | 'pct' — pour Participation evo
 let activeMetric     = 'voix'
 let abstentionMetric  = 'voix'
 let repartitionMetric   = 'voix'
@@ -174,6 +175,7 @@ Promise.all([
     })
 
     layer.on('mouseover', e => {
+      if (window.matchMedia('(hover: none)').matches) return
       if (currentTab === 'bureaux') {
         if (code !== activeCode) e.target.setStyle({ fillOpacity: 0.7 })
         const r = resultats[code]
@@ -231,6 +233,7 @@ Promise.all([
     })
 
     layer.on('mouseout', e => {
+      if (window.matchMedia('(hover: none)').matches) return
       if (currentTab === 'bureaux' && code !== activeCode) {
         e.target.setStyle({ fillOpacity: 0.45 })
       } else if (currentTab === 'analyse') {
@@ -247,9 +250,45 @@ Promise.all([
       e.target.closeTooltip()
     })
 
-    layer.on('click', () => {
+    layer.on('click', e => {
       if (currentTab === 'bureaux') selectBureau(code)
       else if (currentTab === 'evolution' && currentEvoTab === 'carte') selectEvoBureau(code)
+      else if (currentTab === 'evolution' && currentEvoTab === 'scores') selectEvoScoreBureau(code)
+
+      // Sur mobile (pas de hover), afficher un popup avec les KPIs au clic
+      if (window.matchMedia('(hover: none)').matches) {
+        let inner = ''
+        if (currentTab === 'abstention') {
+          const r = resultats[code]
+          const abstentions = r?.abstentions ?? 0
+          const pct = r && r.inscrits > 0 ? (r.abstentions / r.inscrits * 100).toFixed(1) : 'N/D'
+          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${abstentions} abs. · ${pct}%`
+        } else if (currentTab === 'repartition') {
+          const val = getRepartitionVal(code)
+          const label = repartitionMetric === 'voix' ? `${val} voix` : `${val.toFixed(1)}% des inscrits`
+          const n = repartitionSelected.size
+          const nom = n === 0 ? '–' : n === 1
+            ? ({ '__abstentions__': 'Abstentions', '__blancs_nuls__': 'Blancs + Nuls' }[[...repartitionSelected][0]] ?? [...repartitionSelected][0])
+            : `${n} listes`
+          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${nom}<br>${label}`
+        } else if (currentTab === 'potentiel') {
+          const val = getPotentielVal(code, potentielListeSelect?.value)
+          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${potentielListeSelect?.value ?? ''}<br>${val.toFixed(1)} voix potentielles`
+        } else if (currentTab === 'evolution') {
+          const tooltip = getEvoTooltip(code)
+          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${tooltip}`
+        } else if (currentTab === 'analyse') {
+          const score = getScoreAnalyse(code)
+          const label = activeMetric === 'pct' ? `${score !== null ? score.toFixed(1) + '%' : 'N/D'}` : `${score ?? 'N/D'} voix`
+          inner = `<strong>Bureau n° ${parseInt(code)}</strong><br>${listeSelect.value}<br>${label}`
+        }
+        if (inner) {
+          L.popup({ closeButton: true, className: 'bureau-popup-mobile' })
+            .setLatLng(e.latlng)
+            .setContent(`<div class="bureau-tooltip">${inner}</div>`)
+            .openOn(map)
+        }
+      }
     })
 
     layer.addTo(map)
@@ -262,13 +301,26 @@ Promise.all([
   initRepartition()
   initPotentiel()
   if (t2Data) initEvolution()
+
+  ;[
+    ['bureau-list-analyse',    () => applyAnalyseStyle],
+    ['bureau-list-abstention', () => applyAbstentionStyle],
+    ['bureau-list-repartition',() => applyRepartitionStyle],
+    ['bureau-list-potentiel',  () => applyPotentielStyle],
+  ].forEach(([id, getRestoreFn]) => {
+    document.getElementById(id)?.addEventListener('click', e => {
+      const li = e.target.closest('li[data-code]')
+      if (!li) return
+      selectTabBureau(li.dataset.code, getRestoreFn())
+    })
+  })
 })
 .catch(err => console.error('Erreur chargement données :', err))
 
 // ─── Onglets ─────────────────────────────────────────────────────────────────
-document.querySelectorAll('.tab').forEach(btn => {
+document.querySelectorAll('.tab:not(.evo-tab)').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+    document.querySelectorAll('.tab:not(.evo-tab)').forEach(t => t.classList.remove('active'))
     btn.classList.add('active')
     currentTab = btn.dataset.tab
 
@@ -539,7 +591,7 @@ function applySimple() {
   bureauListAnalyse.innerHTML = sorted.map(({ code, score }) => {
     const both = getBothScores(code, libelle)
     return `
-      <li class="bureau-item analyse-item">
+      <li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
         <div class="bureau-label" style="flex:1">
           <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
           <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -603,7 +655,7 @@ function applyEcart() {
     const signV  = ecartVoix > 0 ? '+' : ''
     const signP  = ecartPct  > 0 ? '+' : ''
     return `
-      <li class="bureau-item analyse-item">
+      <li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
         <div class="bureau-label" style="flex:1">
           <div class="bureau-num">Bureau n° ${num}</div>
           <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -686,7 +738,7 @@ function renderAbstention() {
   if (abstentionCount) abstentionCount.textContent = sorted.length
 
   bureauListAbstention.innerHTML = sorted.map(({ code, abstentions, pct }) => `
-    <li class="bureau-item analyse-item">
+    <li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
       <div class="bureau-label" style="flex:1">
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -826,7 +878,7 @@ function renderRepartition() {
   }).sort((a, b) => repartitionMetric === 'voix' ? b.voix - a.voix : b.pct - a.pct)
 
   bureauListRep.innerHTML = sorted.map(({ code, voix, pct }) => `
-    <li class="bureau-item analyse-item">
+    <li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
       <div class="bureau-label" style="flex:1">
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -904,7 +956,7 @@ function getPotentielVal(code, libelle) {
 
 function getPotentielData(libelle) {
   const vals = allFeatures.map(f => getPotentielVal(f.properties.codeBureauVote, libelle))
-  return { max: Math.max(...vals) }
+  return { min: Math.min(...vals), max: Math.max(...vals) }
 }
 
 function applyPotentielColors() {
@@ -918,9 +970,10 @@ function applyPotentielColors() {
     const t    = max > 0 ? val / max : 0
     layers[code]?.layer.setStyle({ fillColor: color, fillOpacity: 0.1 + t * 0.8, color: '#0f1117', weight: 1.5 })
   })
+  const { min } = getPotentielData(libelle)
   const fmt = v => `${v.toFixed(1)} voix`
   document.getElementById('legend-wrap-potentiel').innerHTML = `
-    <div class="legend-label-row"><span>0</span><span>${fmt(max)}</span></div>
+    <div class="legend-label-row"><span>${fmt(min)}</span><span>${fmt(max)}</span></div>
     <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(color, 0.1)},${hexToRgba(color, 0.9)})"></div>
     <div class="legend-caption">Potentiel de « ${libelle.length > 30 ? libelle.slice(0,30)+'…' : libelle} »</div>
   `
@@ -954,7 +1007,7 @@ function renderPotentiel() {
   }).sort((a, b) => b.potentiel - a.potentiel)
 
   bureauListPotentiel.innerHTML = sorted.map(({ code, potentiel, abs, pct }) => `
-    <li class="bureau-item analyse-item">
+    <li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
       <div class="bureau-label" style="flex:1">
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -996,10 +1049,43 @@ document.querySelectorAll('.tour-btn').forEach(btn => {
 })
 
 function setTour(tour) {
+  const normalTabsNav = document.getElementById('normal-tabs')
+  const evoTabsNav    = document.getElementById('evo-tabs')
+
+  if (tour === 'evo') {
+    currentTour = 'evo'
+    normalTabsNav.classList.add('hidden')
+    evoTabsNav.classList.remove('hidden')
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
+    document.getElementById('tab-evolution').classList.remove('hidden')
+    document.querySelectorAll('.evo-content').forEach(c => c.classList.add('hidden'))
+    document.getElementById(`evo-${currentEvoTab}`).classList.remove('hidden')
+    document.querySelectorAll('.evo-tab').forEach(b => b.classList.remove('active'))
+    document.querySelector(`.evo-tab[data-evo="${currentEvoTab}"]`)?.classList.add('active')
+    currentTab = 'evolution'
+    applyEvoColors()
+    if      (currentEvoTab === 'scores')     renderEvoScores()
+    else if (currentEvoTab === 'abstention') renderEvoAbst()
+    else if (currentEvoTab === 'recap')      renderEvoRecap()
+    else                                     renderEvoCarte()
+    if (activeCode) { activeCode = null; hideInfoPanel() }
+    return
+  }
+
+  // Retour depuis mode evo
+  if (currentTour === 'evo') {
+    normalTabsNav.classList.remove('hidden')
+    evoTabsNav.classList.add('hidden')
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
+    document.getElementById('tab-bureaux').classList.remove('hidden')
+    document.querySelectorAll('#normal-tabs .tab').forEach(b => b.classList.remove('active'))
+    document.querySelector('#normal-tabs [data-tab="bureaux"]').classList.add('active')
+    currentTab = 'bureaux'
+  }
+
   currentTour = tour
   resultats   = tour === 't1' ? resultatsT1 : resultatsT2
 
-  // Réinitialiser les couleurs (T1 et T2 n'ont pas les mêmes listes)
   listColorIndex = 0
   Object.keys(listColorMap).forEach(k => delete listColorMap[k])
   Object.values(resultats).forEach(b => b.candidats.forEach(c => getListColor(c.libelle)))
@@ -1010,11 +1096,10 @@ function setTour(tour) {
   refreshPotentielOptions()
 
   renderList(allFeatures)
-  if      (currentTab === 'analyse')    applyAnalyseAll()
-  else if (currentTab === 'abstention') { applyAbstentionColors(); renderAbstention() }
-  else if (currentTab === 'repartition'){ applyRepartitionColors(); renderRepartition() }
-  else if (currentTab === 'potentiel')  { applyPotentielColors();  renderPotentiel()  }
-  else if (currentTab === 'evolution')  applyEvoColors()
+  if      (currentTab === 'analyse')     applyAnalyseAll()
+  else if (currentTab === 'abstention')  { applyAbstentionColors(); renderAbstention() }
+  else if (currentTab === 'repartition') { applyRepartitionColors(); renderRepartition() }
+  else if (currentTab === 'potentiel')   { applyPotentielColors();  renderPotentiel()  }
   else restoreNormalColors()
 
   if (activeCode) {
@@ -1073,7 +1158,10 @@ function refreshPotentielOptions() {
 // ─── Onglet Évolution T1→T2 ──────────────────────────────────────────────────
 
 function initEvolution() {
-  // Sous-onglets
+  // Activer le bouton T1→T2 dans le toggle
+  document.querySelector('.tour-btn[data-tour="evo"]').disabled = false
+
+  // Onglets evo dans la nav principale
   document.querySelectorAll('.evo-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.evo-tab').forEach(b => b.classList.remove('active'))
@@ -1081,10 +1169,12 @@ function initEvolution() {
       currentEvoTab = btn.dataset.evo
       document.querySelectorAll('.evo-content').forEach(c => c.classList.add('hidden'))
       document.getElementById(`evo-${currentEvoTab}`).classList.remove('hidden')
+      if (activeCode) { activeCode = null; hideInfoPanel() }
       applyEvoColors()
-      if (currentEvoTab === 'scores')     renderEvoScores()
+      if      (currentEvoTab === 'scores')     renderEvoScores()
       else if (currentEvoTab === 'abstention') renderEvoAbst()
-      else renderEvoCarte()
+      else if (currentEvoTab === 'recap')      renderEvoRecap()
+      else                                     renderEvoCarte()
     })
   })
 
@@ -1114,8 +1204,28 @@ function initEvolution() {
     })
   })
 
+  document.querySelectorAll('.evo-abst-metric-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.evo-abst-metric-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      evoAbstMetric = btn.dataset.metric
+      if (currentTab === 'evolution' && currentEvoTab === 'abstention') { applyEvoAbstColors(); renderEvoAbst() }
+    })
+  })
+
   // Rendre la liste du sous-onglet Carte
   renderEvoCarte()
+
+  document.getElementById('bureau-list-evo-scores')?.addEventListener('click', e => {
+    const li = e.target.closest('li[data-code]')
+    if (!li) return
+    selectTabBureau(li.dataset.code, applyEvoScoreStyle)
+  })
+  document.getElementById('bureau-list-evo-abst')?.addEventListener('click', e => {
+    const li = e.target.closest('li[data-code]')
+    if (!li) return
+    selectTabBureau(li.dataset.code, applyEvoAbstStyle)
+  })
 }
 
 // ── Carte ──
@@ -1159,6 +1269,25 @@ function selectEvoBureau(code) {
   const feature = allFeatures.find(f => f.properties.codeBureauVote === code)
   showCompareInfoPanel(feature, layers[code].color)
   if (isMobile()) closeSidebar()
+}
+
+function selectTabBureau(code, restoreStyle) {
+  if (activeCode && layers[activeCode]) restoreStyle(activeCode)
+  if (activeCode === code) { activeCode = null; return }
+  activeCode = code
+  layers[code].layer.setStyle({ fillOpacity: 0.8, weight: 2.5, color: '#ffffff' })
+  layers[code].layer.bringToFront()
+}
+
+function selectEvoScoreBureau(code) {
+  if (activeCode && layers[activeCode]) {
+    applyEvoScoreStyle(activeCode)
+  }
+  if (activeCode === code) { activeCode = null; return }
+
+  activeCode = code
+  layers[code].layer.setStyle({ fillOpacity: 0.8, weight: 2.5, color: '#ffffff' })
+  layers[code].layer.bringToFront()
 }
 
 function showCompareInfoPanel(feature, color) {
@@ -1250,9 +1379,9 @@ function getAbstDelta(code) {
 }
 
 function applyEvoColors() {
-  if (currentEvoTab === 'scores')         applyEvoScoresColors()
+  if      (currentEvoTab === 'scores')     applyEvoScoresColors()
   else if (currentEvoTab === 'abstention') applyEvoAbstColors()
-  else restoreNormalColors()
+  else                                     restoreNormalColors()
 }
 
 function applyEvoStyle(code) {
@@ -1280,18 +1409,19 @@ function applyEvoScoresColors() {
   const vals = allFeatures.map(f => getEvoScoreVal(f.properties.codeBureauVote)).filter(v => v !== null)
   if (!vals.length) return
   const maxAbs = Math.max(...vals.map(Math.abs), 0.01)
-  const posMax = Math.max(...vals.filter(v => v >= 0), 0)
-  const negMin = Math.min(...vals.filter(v => v < 0), 0)
+  const minVal = Math.min(...vals)
+  const maxVal = Math.max(...vals)
   allFeatures.forEach(f => {
     const code = f.properties.codeBureauVote, delta = getEvoScoreVal(code)
     if (delta === null) return
     layers[code]?.layer.setStyle({ fillColor: delta >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR, fillOpacity: 0.1 + Math.abs(delta) / maxAbs * 0.8, color: '#0f1117', weight: 1.5 })
   })
   const fmt = v => evoMetric === 'voix' ? `${v > 0 ? '+' : ''}${Math.round(v)} voix` : `${v > 0 ? '+' : ''}${v.toFixed(1)} pts`
+  const minColor = minVal < 0 ? EVO_NEG_COLOR : EVO_POS_COLOR
   const lib  = evoListeSelect?.value ?? ''
   document.getElementById('legend-wrap-evo-scores').innerHTML = `
-    <div class="legend-label-row"><span style="color:${EVO_NEG_COLOR}">${fmt(negMin)}</span><span style="color:${EVO_POS_COLOR}">${fmt(posMax)}</span></div>
-    <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(EVO_NEG_COLOR,0.8)},rgba(40,40,40,0.15),${hexToRgba(EVO_POS_COLOR,0.8)})"></div>
+    <div class="legend-label-row"><span style="color:${minColor}">${fmt(minVal)}</span><span style="color:${EVO_POS_COLOR}">${fmt(maxVal)}</span></div>
+    <div class="legend-gradient" style="background:linear-gradient(to right,${minVal < 0 ? hexToRgba(EVO_NEG_COLOR,0.8) : 'rgba(40,40,40,0.15)'},rgba(40,40,40,0.15),${hexToRgba(EVO_POS_COLOR,0.8)})"></div>
     <div class="legend-caption">Évolution T1→T2 · ${lib.length > 30 ? lib.slice(0,30)+'…' : lib}</div>`
 }
 
@@ -1318,18 +1448,19 @@ function renderEvoScores() {
   }).filter(b => b.delta !== null).sort((a, b) => b.delta - a.delta)
 
   list.innerHTML = sorted.map(({ code, delta, v1voix, v2voix, v1pct, v2pct }) => {
-    const signV  = delta > 0 ? '+' : ''
     const color  = delta >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR
     const barPct = Math.round(Math.abs(delta) / maxAbs * 100)
+    const dVoix  = (v2voix != null && v1voix != null) ? v2voix - v1voix : null
+    const dPct   = (v2pct  != null && v1pct  != null) ? v2pct  - v1pct  : null
     const v1str  = v1voix != null ? `${v1voix} voix` : '–'
     const v2str  = v2voix != null ? `${v2voix} voix` : '–'
-    const deltaVoix = `${signV}${Math.round(delta)} voix`
-    const deltaPct  = (() => {
-      if (v1pct == null || v2pct == null) return ''
-      const d = v2pct - v1pct
-      return `${d >= 0 ? '+' : ''}${d.toFixed(1)} pts`
-    })()
-    return `<li class="bureau-item analyse-item">
+    const primary   = evoMetric === 'voix'
+      ? (dVoix != null ? `${dVoix > 0 ? '+' : ''}${Math.round(dVoix)} voix` : '–')
+      : (dPct  != null ? `${dPct  > 0 ? '+' : ''}${dPct.toFixed(1)} pts`    : '–')
+    const secondary = evoMetric === 'voix'
+      ? (dPct  != null ? `${dPct  > 0 ? '+' : ''}${dPct.toFixed(1)} pts`    : '')
+      : (dVoix != null ? `${dVoix > 0 ? '+' : ''}${Math.round(dVoix)} voix` : '')
+    return `<li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
       <div class="bureau-label" style="flex:1">
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -1337,39 +1468,53 @@ function renderEvoScores() {
         <div class="analyse-bar-wrap"><div class="analyse-bar" style="width:${barPct}%;background:${color}"></div></div>
       </div>
       <div class="analyse-score" style="color:${color};text-align:right">
-        <div style="font-weight:700">${deltaVoix}</div>
-        ${deltaPct ? `<div style="font-size:11px;opacity:0.8">${deltaPct}</div>` : ''}
+        <div style="font-weight:700">${primary}</div>
+        ${secondary ? `<div style="font-size:11px;opacity:0.8">${secondary}</div>` : ''}
       </div>
     </li>`
   }).join('')
 }
 
 // ── Abstention ──
+function getAbstVal(code) {
+  const r1 = resultatsT1[code], r2 = resultatsT2[code]
+  if (!r1 || !r2) return null
+  return evoAbstMetric === 'voix'
+    ? (r2.votants ?? 0) - (r1.votants ?? 0)
+    : getAbstDelta(code)
+}
+
 function applyEvoAbstColors() {
-  const vals = allFeatures.map(f => getAbstDelta(f.properties.codeBureauVote)).filter(v => v !== null)
+  const vals = allFeatures.map(f => getAbstVal(f.properties.codeBureauVote)).filter(v => v !== null)
   if (!vals.length) return
   const maxAbs = Math.max(...vals.map(Math.abs), 0.01)
-  const posMax = Math.max(...vals.filter(v => v >= 0), 0)
-  const negMin = Math.min(...vals.filter(v => v < 0), 0)
+  const minVal = Math.min(...vals)
+  const maxVal = Math.max(...vals)
   allFeatures.forEach(f => {
-    const code = f.properties.codeBureauVote, delta = getAbstDelta(code)
-    if (delta === null) return
-    // Vert = plus de participation au T2, Rouge = moins de participation
-    layers[code]?.layer.setStyle({ fillColor: delta >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR, fillOpacity: 0.1 + Math.abs(delta) / maxAbs * 0.8, color: '#0f1117', weight: 1.5 })
+    const code = f.properties.codeBureauVote, val = getAbstVal(code)
+    if (val === null) return
+    layers[code]?.layer.setStyle({ fillColor: val >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR, fillOpacity: 0.1 + Math.abs(val) / maxAbs * 0.8, color: '#0f1117', weight: 1.5 })
   })
-  const fmt = v => `${v > 0 ? '+' : ''}${v.toFixed(1)} pts`
+  const minColor = minVal < 0 ? EVO_NEG_COLOR : EVO_POS_COLOR
+  const maxColor = EVO_POS_COLOR
+  const fmt = evoAbstMetric === 'voix'
+    ? v => `${v > 0 ? '+' : ''}${Math.round(v)} votants`
+    : v => `${v > 0 ? '+' : ''}${v.toFixed(1)} pts`
+  const caption = evoAbstMetric === 'voix'
+    ? 'Évolution nombre de votants T1 → T2'
+    : 'Évolution taux de participation T1 → T2'
   document.getElementById('legend-wrap-evo-abst').innerHTML = `
-    <div class="legend-label-row"><span style="color:${EVO_NEG_COLOR}">${fmt(negMin)} participation</span><span style="color:${EVO_POS_COLOR}">${fmt(posMax)} participation</span></div>
-    <div class="legend-gradient" style="background:linear-gradient(to right,${hexToRgba(EVO_NEG_COLOR,0.8)},rgba(40,40,40,0.15),${hexToRgba(EVO_POS_COLOR,0.8)})"></div>
-    <div class="legend-caption">Évolution taux de participation T1 → T2</div>`
+    <div class="legend-label-row"><span style="color:${minColor}">${fmt(minVal)}</span><span style="color:${maxColor}">${fmt(maxVal)}</span></div>
+    <div class="legend-gradient" style="background:linear-gradient(to right,${minVal < 0 ? hexToRgba(EVO_NEG_COLOR,0.8) : 'rgba(40,40,40,0.15)'},rgba(40,40,40,0.15),${hexToRgba(EVO_POS_COLOR,0.8)})"></div>
+    <div class="legend-caption">${caption}</div>`
 }
 
 function applyEvoAbstStyle(code) {
-  const vals = allFeatures.map(f => getAbstDelta(f.properties.codeBureauVote)).filter(v => v !== null)
+  const vals = allFeatures.map(f => getAbstVal(f.properties.codeBureauVote)).filter(v => v !== null)
   const maxAbs = Math.max(...vals.map(Math.abs), 0.01)
-  const delta  = getAbstDelta(code)
-  if (delta === null) return
-  layers[code]?.layer.setStyle({ fillColor: delta >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR, fillOpacity: 0.1 + Math.abs(delta) / maxAbs * 0.8, color: '#0f1117', weight: 1.5 })
+  const val = getAbstVal(code)
+  if (val === null) return
+  layers[code]?.layer.setStyle({ fillColor: val >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR, fillOpacity: 0.1 + Math.abs(val) / maxAbs * 0.8, color: '#0f1117', weight: 1.5 })
 }
 
 function renderEvoAbst() {
@@ -1382,14 +1527,23 @@ function renderEvoAbst() {
     const r1   = resultatsT1[code], r2 = resultatsT2[code]
     const delta = getAbstDelta(code)
     return { code, delta, p1: r1?.tauxParticipation, p2: r2?.tauxParticipation, nbVot1: r1?.votants, nbVot2: r2?.votants }
-  }).filter(b => b.delta !== null).sort((a, b) => (b.nbVot2 - b.nbVot1) - (a.nbVot2 - a.nbVot1))
+  }).filter(b => b.delta !== null).sort((a, b) =>
+    evoAbstMetric === 'pct'
+      ? b.delta - a.delta
+      : (b.nbVot2 - b.nbVot1) - (a.nbVot2 - a.nbVot1)
+  )
 
   list.innerHTML = sorted.map(({ code, delta, p1, p2, nbVot1, nbVot2 }) => {
-    const sign    = delta > 0 ? '+' : ''
     const color   = delta >= 0 ? EVO_POS_COLOR : EVO_NEG_COLOR
     const barPct  = Math.round(Math.abs(delta) / maxAbs * 100)
     const nbDelta = (nbVot2 != null && nbVot1 != null) ? nbVot2 - nbVot1 : null
-    return `<li class="bureau-item analyse-item">
+    const primary   = evoAbstMetric === 'pct'
+      ? `${delta > 0 ? '+' : ''}${delta.toFixed(1)} pts`
+      : (nbDelta != null ? `${nbDelta > 0 ? '+' : ''}${nbDelta} votants` : '–')
+    const secondary = evoAbstMetric === 'pct'
+      ? (nbDelta != null ? `${nbDelta > 0 ? '+' : ''}${nbDelta} votants` : '')
+      : `${delta > 0 ? '+' : ''}${delta.toFixed(1)} pts`
+    return `<li class="bureau-item analyse-item" data-code="${code}" style="cursor:pointer">
       <div class="bureau-label" style="flex:1">
         <div class="bureau-num">Bureau n° ${parseInt(code)}</div>
         <div class="bureau-nom">${NOMS_BUREAUX[code] ?? ''}</div>
@@ -1397,11 +1551,80 @@ function renderEvoAbst() {
         <div class="analyse-bar-wrap"><div class="analyse-bar" style="width:${barPct}%;background:${color}"></div></div>
       </div>
       <div class="analyse-score" style="color:${color};text-align:right">
-        <div>${nbDelta != null ? (nbDelta > 0 ? '+' : '') + nbDelta + ' votants' : '–'}</div>
-        <div style="font-size:10px;font-weight:400">${sign}${delta.toFixed(1)} pts</div>
+        <div style="font-weight:700">${primary}</div>
+        <div style="font-size:10px;font-weight:400">${secondary}</div>
       </div>
     </li>`
   }).join('')
+}
+
+// ── Récapitulatif ──
+function renderEvoRecap() {
+  const wrap = document.getElementById('recap-wrap')
+
+  const libsT1 = new Set(Object.values(resultatsT1).flatMap(b => b.candidats.map(c => c.libelle)))
+  const libsT2 = new Set(Object.values(resultatsT2).flatMap(b => b.candidats.map(c => c.libelle)))
+  const listes = [...libsT1].filter(l => libsT2.has(l))
+  // ÊTRE BONDY en premier
+  const idx = listes.indexOf('ÊTRE BONDY')
+  if (idx > 0) { listes.splice(idx, 1); listes.unshift('ÊTRE BONDY') }
+
+  const delta = (v2, v1) => {
+    if (v1 == null || v2 == null) return '–'
+    const d = v2 - v1
+    const cls = d > 0 ? 'pos' : d < 0 ? 'neg' : 'neu'
+    return `<span class="compare-delta ${cls}">${d > 0 ? '+' : ''}${Number.isInteger(d) ? d : d.toFixed(1)}</span>`
+  }
+
+  const listeCols = listes.map(lib => {
+    const short = lib.length > 20 ? lib.slice(0, 20) + '…' : lib
+    const clr   = getListColor(lib)
+    return `<th colspan="3"><span class="compare-swatch" style="background:${clr}"></span>${short}</th>`
+  }).join('')
+
+  const listeSubCols = listes.map(() =>
+    `<th>T1</th><th>T2</th><th>Δ</th>`
+  ).join('')
+
+  const rows = allFeatures.map(f => {
+    const code = f.properties.codeBureauVote
+    const r1 = resultatsT1[code], r2 = resultatsT2[code]
+    if (!r1 || !r2) return ''
+    const nom = NOMS_BUREAUX[code] ? `<div class="recap-nom">${NOMS_BUREAUX[code]}</div>` : ''
+    const partCols = `
+      <td>${r1.tauxParticipation}%</td>
+      <td>${r2.tauxParticipation}%</td>
+      <td>${delta(r2.tauxParticipation, r1.tauxParticipation)}</td>`
+    const scoresCols = listes.map(lib => {
+      const c1 = r1.candidats.find(c => c.libelle === lib)
+      const c2 = r2.candidats.find(c => c.libelle === lib)
+      const dv = c1 && c2 ? delta(c2.voix, c1.voix) : '–'
+      return `<td>${c1 ? c1.voix : '–'}</td><td>${c2 ? c2.voix : '–'}</td><td>${dv}</td>`
+    }).join('')
+    return `<tr>
+      <td><strong>Bur. ${parseInt(code)}</strong>${nom}</td>
+      ${partCols}
+      ${scoresCols}
+    </tr>`
+  }).join('')
+
+  wrap.innerHTML = `
+    <div class="recap-table-wrap">
+      <table class="recap-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Bureau</th>
+            <th colspan="3">Participation</th>
+            ${listeCols}
+          </tr>
+          <tr>
+            <th>T1</th><th>T2</th><th>Δ</th>
+            ${listeSubCols}
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`
 }
 
 // ─── Utilitaires ─────────────────────────────────────────────────────────────
