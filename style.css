@@ -534,17 +534,19 @@ header h1 { font-size: 16px; font-weight: 600; }
 
 /* ─── Popup mobile (bureaux de vote) ────────────────────────── */
 .bureau-popup-mobile .leaflet-popup-content-wrapper {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0,0,0,.4);
-  padding: 0;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4) !important;
+  color: var(--text) !important;
+  padding: 0 !important;
 }
 .bureau-popup-mobile .leaflet-popup-content {
-  margin: 0;
+  margin: 0 !important;
 }
-.bureau-popup-mobile .leaflet-popup-tip-container {
-  display: none;
+.bureau-popup-mobile .leaflet-popup-tip-container,
+.bureau-popup-mobile .leaflet-popup-tip {
+  display: none !important;
 }
 .bureau-popup-mobile .bureau-tooltip {
   border: none;
@@ -556,6 +558,12 @@ header h1 { font-size: 16px; font-weight: 600; }
 }
 
 /* ─── Tooltip hover ─────────────────────────────────────────── */
+.leaflet-tooltip:has(.bureau-tooltip) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
 .bureau-tooltip {
   background: var(--surface);
   border: 1px solid var(--border);
