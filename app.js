@@ -115,6 +115,7 @@ let resultats    = resultatsT1  // référence active (T1 ou T2)
 let currentTour  = 't1'
 let layers       = {}
 let activeCode   = null
+let mobilePopup  = null
 let currentTab   = 'bureaux'
 let currentEvoTab = 'carte'     // sous-onglet actif dans Évolution T1→T2
 let evoMetric    = 'voix'       // 'voix' | 'pct' — pour Scores par liste evo
@@ -249,13 +250,14 @@ Promise.all([
       else if (currentTab === 'analyse') selectTabBureau(code, applyAnalyseStyle)
 
       // Sur mobile (pas de hover), afficher un popup avec les KPIs au clic
-      if (isTouch && currentTab !== 'bureaux' && currentTab !== 'analyse') {
+      if (isTouch && currentTab !== 'bureaux') {
         const inner = getTooltipInner(code)
         if (inner) {
-          L.popup({ closeButton: true, className: 'bureau-popup-mobile' })
+          mobilePopup = L.popup({ closeButton: true, className: 'bureau-popup-mobile' })
             .setLatLng(e.latlng)
             .setContent(`<div class="bureau-tooltip">${inner}</div>`)
-            .openOn(map)
+          mobilePopup.openOn(map)
+          mobilePopup.on('remove', () => { mobilePopup = null })
         }
       }
     })
@@ -304,6 +306,7 @@ document.querySelectorAll('.tab:not(.evo-tab)').forEach(btn => {
     btn.classList.add('active')
     currentTab = btn.dataset.tab
     map.closePopup()
+    closeMobilePopup()
 
     document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'))
     document.getElementById(`tab-${currentTab}`).classList.remove('hidden')
@@ -374,6 +377,10 @@ const sidebar = document.querySelector('.sidebar')
 const listFab = document.getElementById('list-fab')
 
 function isMobile() { return window.innerWidth <= 768 }
+
+function closeMobilePopup() {
+  if (mobilePopup) { mobilePopup.remove(); mobilePopup = null }
+}
 
 function openSidebar() {
   map.closePopup()
@@ -480,10 +487,9 @@ function hideInfoPanel() {
 infoClose.addEventListener('click', () => {
   if (activeCode) {
     document.querySelector(`.bureau-item[data-code="${activeCode}"]`)?.classList.remove('active')
-    activeCode = null
   }
   hideInfoPanel()
-  if (isMobile()) openSidebar()
+  activeCode = null
 })
 
 // ─── Recherche ───────────────────────────────────────────────────────────────
@@ -1033,6 +1039,7 @@ document.querySelectorAll('.tour-btn').forEach(btn => {
 
 function setTour(tour) {
   map.closePopup()
+  closeMobilePopup()
   const normalTabsNav = document.getElementById('normal-tabs')
   const evoTabsNav    = document.getElementById('evo-tabs')
 
@@ -1152,6 +1159,7 @@ function initEvolution() {
       btn.classList.add('active')
       currentEvoTab = btn.dataset.evo
       map.closePopup()
+      closeMobilePopup()
       document.querySelectorAll('.evo-content').forEach(c => c.classList.add('hidden'))
       document.getElementById(`evo-${currentEvoTab}`).classList.remove('hidden')
       if (activeCode) { activeCode = null; hideInfoPanel() }
